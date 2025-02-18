@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
-const AddList = ({ onAdd }) => {
-    const [newTask, setNewTask] = useState("");
+interface AddListProps {
+    onAdd: (task: string) => void;
+}
 
-    const handleChange = (e) => {
+const AddList: React.FC<AddListProps> = ({ onAdd }) => {
+    const [newTask, setNewTask] = useState<string>("");
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.target.value); // When the user types in the input field, the state is updated
     };
 
@@ -15,21 +18,24 @@ const AddList = ({ onAdd }) => {
         }
     };
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleAdd();
+        }
+    };
+
     return (
         <div>
             <input 
                 type="text" 
                 value={newTask} 
                 onChange={handleChange} 
+                onKeyPress={handleKeyPress}
                 placeholder="Add a new task" 
             />
             <button onClick={handleAdd}>+</button>
         </div>
     );
-}
-
-AddList.propTypes = {
-    onAdd: PropTypes.func.isRequired
 };
 
 export default AddList;

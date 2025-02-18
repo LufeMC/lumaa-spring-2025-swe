@@ -5,7 +5,7 @@ import Login from './Login';
 import Register from './Register';
 import './index.css';
 
-const Home = () => {
+const Home: React.FC = () => {
     return (
         <div className="container">
             <h1>Welcome to Task Management</h1>
@@ -17,7 +17,7 @@ const Home = () => {
     );
 };
 
-const App = () => {
+const App: React.FC = () => {
     return (
         <Router>
             <Routes>

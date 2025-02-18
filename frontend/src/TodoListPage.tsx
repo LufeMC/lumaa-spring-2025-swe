@@ -1,13 +1,17 @@
-// filepath: /c:/Users/vishr/OneDrive/Documents/Lumaa/lumaa-spring-2025-swe/frontend/src/TodoListPage.jsx
 import React, { useEffect, useState } from "react";
-import PropTypes from 'prop-types';
 import './index.css';
 
-const TodoListPage = () => {
-    const [todos, setTodos] = useState([]);
-    const [editingTask, setEditingTask] = useState(null);
-    const [newTaskMessage, setNewTaskMessage] = useState("");
-    const [newTaskTitle, setNewTaskTitle] = useState("");
+interface Task {
+    message: string;
+    title: string;
+    isComplete: boolean;
+}
+
+const TodoListPage: React.FC = () => {
+    const [todos, setTodos] = useState<Task[]>([]);
+    const [editingTask, setEditingTask] = useState<Task | null>(null);
+    const [newTaskMessage, setNewTaskMessage] = useState<string>("");
+    const [newTaskTitle, setNewTaskTitle] = useState<string>("");
 
     useEffect(() => {
         const fetchTodos = async () => {
@@ -21,7 +25,7 @@ const TodoListPage = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setTodos(Array.isArray(data) ? data : []);
+                setTodos(Array.isArray(data) ? data.map((task: Task) => ({ ...task, isComplete: false })) : []);
             } else {
                 console.error("Error fetching tasks:", response.statusText);
             }
@@ -30,7 +34,7 @@ const TodoListPage = () => {
         fetchTodos();
     }, []);
 
-    const handleAdd = (newTaskMessage, newTaskTitle) => {
+    const handleAdd = (newTaskMessage: string, newTaskTitle: string) => {
         const token = localStorage.getItem('token');
         fetch("http://localhost:3000/todos", {
             method: "POST",
@@ -42,7 +46,7 @@ const TodoListPage = () => {
         })
         .then(response => response.json())
         .then(data => {
-            setTodos([...todos, { message: newTaskMessage, title: newTaskTitle }]);
+            setTodos([...todos, { message: newTaskMessage, title: newTaskTitle, isComplete: false }]);
             console.log("Task added:", data);
         })
         .catch(error => {
@@ -50,7 +54,7 @@ const TodoListPage = () => {
         });
     };
 
-    const handleDelete = (taskToDelete) => {
+    const handleDelete = (taskToDelete: Task) => {
         const token = localStorage.getItem('token');
         fetch(`http://localhost:3000/todos/${taskToDelete.message}`, {
             method: "DELETE",
@@ -69,13 +73,15 @@ const TodoListPage = () => {
         });
     };
 
-    const handleEdit = (task) => {
+    const handleEdit = (task: Task) => {
         setEditingTask(task);
         setNewTaskMessage(task.message);
         setNewTaskTitle(task.title);
     };
 
     const handleUpdate = () => {
+        if (!editingTask) return;
+
         const token = localStorage.getItem('token');
         fetch(`http://localhost:3000/todos/${editingTask.message}`, {
             method: "PUT",
@@ -98,13 +104,17 @@ const TodoListPage = () => {
         });
     };
 
+    const handleComplete = (taskToComplete: Task) => {
+        setTodos(todos.map(task => task.message === taskToComplete.message ? { ...task, isComplete: !task.isComplete } : task));
+    };
+
     return (
         <div className="container">
             <div className="overlay"></div>
             <div className="content">
                 <h1>Tasks</h1>
                 <AddList onAdd={handleAdd} />
-                <TodoList todos={todos} onDelete={handleDelete} onEdit={handleEdit} />
+                <TodoList todos={todos} onDelete={handleDelete} onEdit={handleEdit} onComplete={handleComplete} />
                 {editingTask && (
                     <div>
                         <input 
@@ -132,15 +142,19 @@ const TodoListPage = () => {
     );
 };
 
-const AddList = ({ onAdd }) => {
-    const [newTaskMessage, setNewTaskMessage] = useState("");
-    const [newTaskTitle, setNewTaskTitle] = useState("");
+interface AddListProps {
+    onAdd: (message: string, title: string) => void;
+}
 
-    const handleChangeMessage = (e) => {
+const AddList: React.FC<AddListProps> = ({ onAdd }) => {
+    const [newTaskMessage, setNewTaskMessage] = useState<string>("");
+    const [newTaskTitle, setNewTaskTitle] = useState<string>("");
+
+    const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewTaskMessage(e.target.value); // When the user types in the input field, the state is updated
     };
 
-    const handleChangeTitle = (e) => {
+    const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.target.value); // When the user types in the input field, the state is updated
     };
 
@@ -152,7 +166,7 @@ const AddList = ({ onAdd }) => {
         }
     };
 
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleAdd();
         }
@@ -178,14 +192,17 @@ const AddList = ({ onAdd }) => {
     );
 };
 
-AddList.propTypes = {
-    onAdd: PropTypes.func.isRequired
-};
+interface TodoListProps {
+    todos: Task[];
+    onDelete: (task: Task) => void;
+    onEdit: (task: Task) => void;
+    onComplete: (task: Task) => void;
+}
 
-const TodoList = ({ todos, onDelete, onEdit }) => {
-    const handleCheckboxChange = (event, task) => {
+const TodoList: React.FC<TodoListProps> = ({ todos, onDelete, onEdit, onComplete }) => {
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, task: Task) => {
         event.preventDefault(); // Prevent the default checkbox behavior
-        onDelete(task);
+        onComplete(task);
     };
 
     return (
@@ -196,23 +213,16 @@ const TodoList = ({ todos, onDelete, onEdit }) => {
                         <input 
                             type="checkbox" 
                             onChange={(event) => handleCheckboxChange(event, todo)} 
+                            checked={todo.isComplete}
                         /> 
-                        <strong>{todo.title}</strong>: {todo.message}
+                        <strong>{todo.title}</strong>: {todo.message} {todo.isComplete ? "(Completed)" : ""}
                         <button onClick={() => onEdit(todo)}>Edit</button>
+                        <button onClick={() => onDelete(todo)}>Delete</button>
                     </li>
                 ))}
             </ul>
         </div>
     );
-};
-
-TodoList.propTypes = {
-    todos: PropTypes.arrayOf(PropTypes.shape({
-        message: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired
-    })).isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onEdit: PropTypes.func.isRequired
 };
 
 export default TodoListPage;

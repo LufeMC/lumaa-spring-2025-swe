@@ -1,42 +1,50 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const Register: React.FC = () => {
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const response = await fetch('http://localhost:3000/auth/login', {
+        const response = await fetch('http://localhost:3000/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ name, email, password }),
         });
 
         const data = await response.json();
         console.log(data);
 
         if (data.auth) {
-            // Store the token in localStorage
-            localStorage.setItem('token', data.token);
-
-            // Handle successful login (e.g., redirect to todo list page)
-            console.log('Login successful');
-            navigate('/todos');
+            // Handle successful registration (e.g., redirect to login page)
+            console.log('Registration successful');
+            navigate('/login');
         } else {
-            // Handle login error
-            console.log('Login failed');
+            // Handle registration error
+            console.log('Registration failed');
         }
     };
 
     return (
         <div>
-            <h2>Sign-in</h2>
+            <h2>Sign-up</h2>
             <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Name:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
+                </div>
                 <div>
                     <label>Email:</label>
                     <input
@@ -48,7 +56,7 @@ const Login = () => {
                     />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label>Create a password:</label>
                     <input
                         type="password"
                         name="password"
@@ -57,10 +65,10 @@ const Login = () => {
                         required
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
             </form>
         </div>
     );
 };
 
-export default Login;
+export default Register;
