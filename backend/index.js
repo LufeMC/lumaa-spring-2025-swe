@@ -46,7 +46,7 @@ app.use(authenticate);
 
 // Get tasks
 app.get('/todos', (req, res) => {
-    const queryText = 'SELECT message, title FROM todolist WHERE email = $1';
+    const queryText = 'SELECT message, title, isComplete FROM todolist WHERE email = $1';
     db.query(queryText, [req.user.email], (err, result) => {
         if (err) {
             console.error("Error executing query", err.stack);
@@ -59,8 +59,8 @@ app.get('/todos', (req, res) => {
 // Create task
 app.post('/todos', (req, res) => {
     const { message, title } = req.body;
-    const queryText = 'INSERT INTO todolist (message, title, email) VALUES ($1, $2, $3)';
-    db.query(queryText, [message, title, req.user.email], (err, result) => {
+    const queryText = 'INSERT INTO todolist (message, title, email, isComplete) VALUES ($1, $2, $3, $4)';
+    db.query(queryText, [message, title, req.user.email, false], (err, result) => {
         if (err) {
             console.error("Error executing query", err.stack);
             return res.status(500).json({ error: 'Error adding task' });
@@ -70,11 +70,11 @@ app.post('/todos', (req, res) => {
 });
 
 // Update task
-app.put('/todos/:task', (req, res) => {
-    const oldTask = req.params.task;
-    const { message, title } = req.body;
-    const queryText = 'UPDATE todolist SET message = $1, title = $2 WHERE message = $3 AND email = $4';
-    db.query(queryText, [message, title, oldTask, req.user.email], (err, result) => {
+app.put('/todos/:title', (req, res) => {
+    const oldTitle = req.params.title;
+    const { message, title, isComplete } = req.body;
+    const queryText = 'UPDATE todolist SET message = $1, title = $2, isComplete = $3 WHERE title = $4 AND email = $5';
+    db.query(queryText, [message, title, isComplete, oldTitle, req.user.email], (err, result) => {
         if (err) {
             console.error("Error executing query", err.stack);
             return res.status(500).json({ error: 'Error updating task' });
@@ -84,9 +84,9 @@ app.put('/todos/:task', (req, res) => {
 });
 
 // Delete task
-app.delete('/todos/:task', (req, res) => {
-    const taskToDelete = req.params.task;
-    const queryText = 'DELETE FROM todolist WHERE message = $1 AND email = $2';
+app.delete('/todos/:title', (req, res) => {
+    const taskToDelete = req.params.title;
+    const queryText = 'DELETE FROM todolist WHERE title = $1 AND email = $2';
     db.query(queryText, [taskToDelete, req.user.email], (err, result) => {
         if (err) {
             console.error("Error executing query", err.stack);

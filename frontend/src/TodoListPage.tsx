@@ -32,7 +32,7 @@ const TodoListPage: React.FC = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setTodos(Array.isArray(data) ? data.map((task: Task) => ({ ...task, isComplete: false })) : []);
+                setTodos(Array.isArray(data) ? data : []);
             } else {
                 console.error("Error fetching tasks:", response.statusText);
             }
@@ -63,7 +63,7 @@ const TodoListPage: React.FC = () => {
 
     const handleDelete = (taskToDelete: Task) => {
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/todos/${taskToDelete.message}`, {
+        fetch(`http://localhost:3000/todos/${taskToDelete.title}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -72,7 +72,7 @@ const TodoListPage: React.FC = () => {
         })
         .then(response => response.json())
         .then(data => {
-            setTodos(todos.filter(task => task.message !== taskToDelete.message));
+            setTodos(todos.filter(task => task.title !== taskToDelete.title));
             console.log("Task deleted:", data);
         })
         .catch(error => {
@@ -90,7 +90,7 @@ const TodoListPage: React.FC = () => {
         if (!editingTask) return;
 
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/todos/${editingTask.message}`, {
+        fetch(`http://localhost:3000/todos/${editingTask.title}`, {
             method: "PUT",
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -100,7 +100,7 @@ const TodoListPage: React.FC = () => {
         })
         .then(response => response.json())
         .then(data => {
-            setTodos(todos.map(task => task.message === editingTask.message ? { ...task, message: newTaskMessage, title: newTaskTitle } : task));
+            setTodos(todos.map(task => task.title === editingTask.title ? { ...task, message: newTaskMessage, title: newTaskTitle } : task));
             setEditingTask(null);
             setNewTaskMessage("");
             setNewTaskTitle("");
@@ -112,7 +112,23 @@ const TodoListPage: React.FC = () => {
     };
 
     const handleComplete = (taskToComplete: Task) => {
-        setTodos(todos.map(task => task.message === taskToComplete.message ? { ...task, isComplete: !task.isComplete } : task));
+        const token = localStorage.getItem('token');
+        fetch(`http://localhost:3000/todos/${taskToComplete.title}`, {
+            method: "PUT",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ ...taskToComplete, isComplete: true })
+        })
+        .then(response => response.json())
+        .then(data => {
+            setTodos(todos.filter(task => task.title !== taskToComplete.title));
+            console.log("Task completed:", data);
+        })
+        .catch(error => {
+            console.error("Error completing task:", error);
+        });
     };
 
     const handleLogout = () => {
@@ -222,7 +238,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onDelete, onEdit, onComplete
         <div>
             <ul style={{ listStyleType: 'none' }}>
                 {todos.map((todo, index) => (
-                    <li key={index}>
+                    <li key={index} style={{ textDecoration: todo.isComplete ? 'line-through' : 'none' }}>
                         <input 
                             type="checkbox" 
                             onChange={(event) => handleCheckboxChange(event, todo)} 
