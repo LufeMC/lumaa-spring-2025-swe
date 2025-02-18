@@ -1,0 +1,1 @@
+{"root":["./src/db.ts","./src/index.ts","./src/controllers/authcontroller.ts","./src/routes/authroutes.ts","./src/routes/taskroutes.ts"],"version":"5.6.3"}
