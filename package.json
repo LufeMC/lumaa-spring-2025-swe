@@ -1,0 +1,20 @@
+{
+  "name": "task-management",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "task-management-frontend",
+    "task-management-backend"
+  ],
+  "scripts": {
+    "start:frontend": "cd task-management-frontend && npm start",
+    "start:backend": "cd task-management-backend && npm run dev",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "install:all": "npm install && npm run install:backend && npm run install:frontend",
+    "install:backend": "cd task-management-backend && npm install",
+    "install:frontend": "cd task-management-frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
