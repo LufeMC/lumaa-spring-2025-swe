@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface AddListProps {
-    onAdd: (task: string) => void;
+    onAdd: (message: string, title: string) => void;
 }
 
 const AddList: React.FC<AddListProps> = ({ onAdd }) => {
-    const [newTask, setNewTask] = useState<string>("");
+    const [newTaskMessage, setNewTaskMessage] = useState<string>("");
+    const [newTaskTitle, setNewTaskTitle] = useState<string>("");
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewTask(e.target.value); // When the user types in the input field, the state is updated
+    const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewTaskMessage(e.target.value); // When the user types in the input field, the state is updated
+    };
+
+    const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewTaskTitle(e.target.value); // When the user types in the input field, the state is updated
     };
 
     const handleAdd = () => {
-        if (newTask.trim() !== "") {
-            onAdd(newTask); // onAdd is a prop passed from the parent component
-            setNewTask("");
+        if (newTaskTitle.trim() !== "") {
+            onAdd(newTaskMessage, newTaskTitle); // onAdd is a prop passed from the parent component
+            setNewTaskMessage("");
+            setNewTaskTitle("");
         }
     };
 
@@ -25,15 +31,23 @@ const AddList: React.FC<AddListProps> = ({ onAdd }) => {
     };
 
     return (
-        <div>
+        <div className="mb-4">
             <input 
                 type="text" 
-                value={newTask} 
-                onChange={handleChange} 
-                onKeyPress={handleKeyPress}
-                placeholder="Add a new task" 
+                value={newTaskTitle} 
+                onChange={handleChangeTitle} 
+                placeholder="Add a new task title"
+                className="border p-2 rounded mb-2 w-full"
             />
-            <button onClick={handleAdd}>+</button>
+            <input 
+                type="text" 
+                value={newTaskMessage} 
+                onChange={handleChangeMessage} 
+                placeholder="Add task description (optional)"
+                className="border p-2 rounded mb-2 w-full"
+                onKeyPress={handleKeyPress}
+            />
+            <button onClick={handleAdd} className="bg-green-500 text-white px-4 py-2 rounded">+</button>
         </div>
     );
 };
