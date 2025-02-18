@@ -6,7 +6,8 @@ import './index.css';
 const TodoListPage = () => {
     const [todos, setTodos] = useState([]);
     const [editingTask, setEditingTask] = useState(null);
-    const [newTaskName, setNewTaskName] = useState("");
+    const [newTaskMessage, setNewTaskMessage] = useState("");
+    const [newTaskTitle, setNewTaskTitle] = useState("");
 
     useEffect(() => {
         const fetchTodos = async () => {
@@ -22,16 +23,14 @@ const TodoListPage = () => {
                 const data = await response.json();
                 setTodos(Array.isArray(data) ? data : []);
             } else {
-                console.error("Error fetching todos:", response.statusText);
+                console.error("Error fetching tasks:", response.statusText);
             }
         };
 
         fetchTodos();
     }, []);
 
-    const handleAdd = (newTask) => {
-        setTodos([...todos, newTask]);
-
+    const handleAdd = (newTaskMessage, newTaskTitle) => {
         const token = localStorage.getItem('token');
         fetch("http://localhost:3000/todos", {
             method: "POST",
@@ -39,10 +38,11 @@ const TodoListPage = () => {
                 'Authorization': token ? `Bearer ${token}` : '',
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ message: newTask })
+            body: JSON.stringify({ message: newTaskMessage, title: newTaskTitle })
         })
         .then(response => response.json())
         .then(data => {
+            setTodos([...todos, { message: newTaskMessage, title: newTaskTitle }]);
             console.log("Task added:", data);
         })
         .catch(error => {
@@ -51,10 +51,8 @@ const TodoListPage = () => {
     };
 
     const handleDelete = (taskToDelete) => {
-        setTodos(todos.filter(task => task !== taskToDelete));
-
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/todos/${taskToDelete}`, {
+        fetch(`http://localhost:3000/todos/${taskToDelete.message}`, {
             method: "DELETE",
             headers: {
                 'Authorization': token ? `Bearer ${token}` : '',
@@ -63,6 +61,7 @@ const TodoListPage = () => {
         })
         .then(response => response.json())
         .then(data => {
+            setTodos(todos.filter(task => task.message !== taskToDelete.message));
             console.log("Task deleted:", data);
         })
         .catch(error => {
@@ -72,25 +71,27 @@ const TodoListPage = () => {
 
     const handleEdit = (task) => {
         setEditingTask(task);
-        setNewTaskName(task);
+        setNewTaskMessage(task.message);
+        setNewTaskTitle(task.title);
     };
 
     const handleUpdate = () => {
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/todos/${editingTask}`, {
+        fetch(`http://localhost:3000/todos/${editingTask.message}`, {
             method: "PUT",
             headers: {
                 'Authorization': token ? `Bearer ${token}` : '',
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ message: newTaskName })
+            body: JSON.stringify({ message: newTaskMessage, title: newTaskTitle })
         })
         .then(response => response.json())
         .then(data => {
-            console.log("Task updated:", data);
-            setTodos(todos.map(task => task === editingTask ? newTaskName : task));
+            setTodos(todos.map(task => task.message === editingTask.message ? { ...task, message: newTaskMessage, title: newTaskTitle } : task));
             setEditingTask(null);
-            setNewTaskName("");
+            setNewTaskMessage("");
+            setNewTaskTitle("");
+            console.log("Task updated:", data);
         })
         .catch(error => {
             console.error("Error updating task:", error);
@@ -108,8 +109,15 @@ const TodoListPage = () => {
                     <div>
                         <input 
                             type="text" 
-                            value={newTaskName} 
-                            onChange={(e) => setNewTaskName(e.target.value)} 
+                            value={newTaskTitle} 
+                            onChange={(e) => setNewTaskTitle(e.target.value)} 
+                            placeholder="Edit task title"
+                        />
+                        <input 
+                            type="text" 
+                            value={newTaskMessage} 
+                            onChange={(e) => setNewTaskMessage(e.target.value)} 
+                            placeholder="Edit task message"
                             onKeyPress={(e) => {
                                 if (e.key === 'Enter') {
                                     handleUpdate();
@@ -125,16 +133,22 @@ const TodoListPage = () => {
 };
 
 const AddList = ({ onAdd }) => {
-    const [newTask, setNewTask] = useState("");
+    const [newTaskMessage, setNewTaskMessage] = useState("");
+    const [newTaskTitle, setNewTaskTitle] = useState("");
 
-    const handleChange = (e) => {
-        setNewTask(e.target.value); // When the user types in the input field, the state is updated
+    const handleChangeMessage = (e) => {
+        setNewTaskMessage(e.target.value); // When the user types in the input field, the state is updated
+    };
+
+    const handleChangeTitle = (e) => {
+        setNewTaskTitle(e.target.value); // When the user types in the input field, the state is updated
     };
 
     const handleAdd = () => {
-        if (newTask.trim() !== "") {
-            onAdd(newTask); // onAdd is a prop passed from the parent component
-            setNewTask("");
+        if (newTaskMessage.trim() !== "" && newTaskTitle.trim() !== "") {
+            onAdd(newTaskMessage, newTaskTitle); // onAdd is a prop passed from the parent component
+            setNewTaskMessage("");
+            setNewTaskTitle("");
         }
     };
 
@@ -148,10 +162,16 @@ const AddList = ({ onAdd }) => {
         <div>
             <input 
                 type="text" 
-                value={newTask} 
-                onChange={handleChange} 
+                value={newTaskTitle} 
+                onChange={handleChangeTitle} 
+                placeholder="Add a new task title"
+            />
+            <input 
+                type="text" 
+                value={newTaskMessage} 
+                onChange={handleChangeMessage} 
+                placeholder="Add a new task message"
                 onKeyPress={handleKeyPress}
-                placeholder="Add a new task" 
             />
             <button onClick={handleAdd}>+</button>
         </div>
@@ -177,7 +197,7 @@ const TodoList = ({ todos, onDelete, onEdit }) => {
                             type="checkbox" 
                             onChange={(event) => handleCheckboxChange(event, todo)} 
                         /> 
-                        {todo}
+                        <strong>{todo.title}</strong>: {todo.message}
                         <button onClick={() => onEdit(todo)}>Edit</button>
                     </li>
                 ))}
@@ -187,7 +207,10 @@ const TodoList = ({ todos, onDelete, onEdit }) => {
 };
 
 TodoList.propTypes = {
-    todos: PropTypes.arrayOf(PropTypes.string).isRequired,
+    todos: PropTypes.arrayOf(PropTypes.shape({
+        message: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired
+    })).isRequired,
     onDelete: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired
 };
