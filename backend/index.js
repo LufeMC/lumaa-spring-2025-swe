@@ -68,6 +68,19 @@ app.post('/todos', (req, res) => {
     });
 });
 
+app.put('/todos/:task', (req, res) => {
+    const oldTask = req.params.task;
+    const newTask = req.body.message;
+    const queryText = 'UPDATE todolist SET message = $1 WHERE message = $2 AND email = $3';
+    db.query(queryText, [newTask, oldTask, req.user.email], (err, result) => {
+        if (err) {
+            console.error("Error executing query", err.stack);
+            return res.status(500).json({ error: 'Error updating task' });
+        }
+        res.json({ message: 'Task updated successfully' });
+    });
+});
+
 app.delete('/todos/:task', (req, res) => {
     const taskToDelete = req.params.task;
     const queryText = 'DELETE FROM todolist WHERE message = $1 AND email = $2';

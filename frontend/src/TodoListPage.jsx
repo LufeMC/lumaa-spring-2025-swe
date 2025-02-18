@@ -5,6 +5,8 @@ import './index.css';
 
 const TodoListPage = () => {
     const [todos, setTodos] = useState([]);
+    const [editingTask, setEditingTask] = useState(null);
+    const [newTaskName, setNewTaskName] = useState("");
 
     useEffect(() => {
         const fetchTodos = async () => {
@@ -68,13 +70,50 @@ const TodoListPage = () => {
         });
     };
 
+    const handleEdit = (task) => {
+        setEditingTask(task);
+        setNewTaskName(task);
+    };
+
+    const handleUpdate = () => {
+        const token = localStorage.getItem('token');
+        fetch(`http://localhost:3000/todos/${editingTask}`, {
+            method: "PUT",
+            headers: {
+                'Authorization': token ? `Bearer ${token}` : '',
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: newTaskName })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Task updated:", data);
+            setTodos(todos.map(task => task === editingTask ? newTaskName : task));
+            setEditingTask(null);
+            setNewTaskName("");
+        })
+        .catch(error => {
+            console.error("Error updating task:", error);
+        });
+    };
+
     return (
         <div className="container">
             <div className="overlay"></div>
             <div className="content">
                 <h1>Todo List</h1>
                 <AddList onAdd={handleAdd} />
-                <TodoList todos={todos} onDelete={handleDelete} />
+                <TodoList todos={todos} onDelete={handleDelete} onEdit={handleEdit} />
+                {editingTask && (
+                    <div>
+                        <input 
+                            type="text" 
+                            value={newTaskName} 
+                            onChange={(e) => setNewTaskName(e.target.value)} 
+                        />
+                        <button onClick={handleUpdate}>Update</button>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -111,7 +150,7 @@ AddList.propTypes = {
     onAdd: PropTypes.func.isRequired
 };
 
-const TodoList = ({ todos, onDelete }) => {
+const TodoList = ({ todos, onDelete, onEdit }) => {
     const handleCheckboxChange = (event, task) => {
         event.preventDefault(); // Prevent the default checkbox behavior
         onDelete(task);
@@ -127,6 +166,7 @@ const TodoList = ({ todos, onDelete }) => {
                             onChange={(event) => handleCheckboxChange(event, todo)} 
                         /> 
                         {todo}
+                        <button onClick={() => onEdit(todo)}>Edit</button>
                     </li>
                 ))}
             </ul>
@@ -136,7 +176,8 @@ const TodoList = ({ todos, onDelete }) => {
 
 TodoList.propTypes = {
     todos: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired
 };
 
 export default TodoListPage;
