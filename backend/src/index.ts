@@ -3,6 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { AppDataSource } from './config/database';
+import authRoutes from './routes/auth.routes';
+import taskRoutes from './routes/task.routes';
 
 // Load environment variables
 dotenv.config();
@@ -21,6 +23,10 @@ AppDataSource.initialize()
   .catch((error) => {
     console.error('Error during Data Source initialization:', error);
   });
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/tasks', taskRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => {
