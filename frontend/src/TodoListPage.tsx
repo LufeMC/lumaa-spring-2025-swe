@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 
 interface Task {
@@ -12,13 +13,19 @@ const TodoListPage: React.FC = () => {
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [newTaskMessage, setNewTaskMessage] = useState<string>("");
     const [newTaskTitle, setNewTaskTitle] = useState<string>("");
+    const navigate = useNavigate();
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/');
+            return;
+        }
+
         const fetchTodos = async () => {
-            const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
             const response = await fetch("http://localhost:3000/todos", {
                 headers: {
-                    'Authorization': token ? `Bearer ${token}` : '',
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });
@@ -32,14 +39,14 @@ const TodoListPage: React.FC = () => {
         };
 
         fetchTodos();
-    }, []);
+    }, [navigate]);
 
     const handleAdd = (newTaskMessage: string, newTaskTitle: string) => {
         const token = localStorage.getItem('token');
         fetch("http://localhost:3000/todos", {
             method: "POST",
             headers: {
-                'Authorization': token ? `Bearer ${token}` : '',
+                'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ message: newTaskMessage, title: newTaskTitle })
@@ -59,7 +66,7 @@ const TodoListPage: React.FC = () => {
         fetch(`http://localhost:3000/todos/${taskToDelete.message}`, {
             method: "DELETE",
             headers: {
-                'Authorization': token ? `Bearer ${token}` : '',
+                'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json"
             }
         })
@@ -86,7 +93,7 @@ const TodoListPage: React.FC = () => {
         fetch(`http://localhost:3000/todos/${editingTask.message}`, {
             method: "PUT",
             headers: {
-                'Authorization': token ? `Bearer ${token}` : '',
+                'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ message: newTaskMessage, title: newTaskTitle })
@@ -108,6 +115,11 @@ const TodoListPage: React.FC = () => {
         setTodos(todos.map(task => task.message === taskToComplete.message ? { ...task, isComplete: !task.isComplete } : task));
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/');
+    };
+
     return (
         <div className="container">
             <div className="overlay"></div>
@@ -127,7 +139,7 @@ const TodoListPage: React.FC = () => {
                             type="text" 
                             value={newTaskMessage} 
                             onChange={(e) => setNewTaskMessage(e.target.value)} 
-                            placeholder="Edit task message"
+                            placeholder="Edit task message (optional)"
                             onKeyPress={(e) => {
                                 if (e.key === 'Enter') {
                                     handleUpdate();
@@ -137,6 +149,7 @@ const TodoListPage: React.FC = () => {
                         <button onClick={handleUpdate}>Update</button>
                     </div>
                 )}
+                <button onClick={handleLogout}>Logout</button>
             </div>
         </div>
     );
@@ -159,7 +172,7 @@ const AddList: React.FC<AddListProps> = ({ onAdd }) => {
     };
 
     const handleAdd = () => {
-        if (newTaskMessage.trim() !== "" && newTaskTitle.trim() !== "") {
+        if (newTaskTitle.trim() !== "") {
             onAdd(newTaskMessage, newTaskTitle); // onAdd is a prop passed from the parent component
             setNewTaskMessage("");
             setNewTaskTitle("");
@@ -184,7 +197,7 @@ const AddList: React.FC<AddListProps> = ({ onAdd }) => {
                 type="text" 
                 value={newTaskMessage} 
                 onChange={handleChangeMessage} 
-                placeholder="Add task description"
+                placeholder="Add task description (optional)"
                 onKeyPress={handleKeyPress}
             />
             <button onClick={handleAdd}>+</button>

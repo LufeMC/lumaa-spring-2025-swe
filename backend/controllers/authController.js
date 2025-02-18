@@ -48,4 +48,9 @@ const login = (req, res) => {
         });
 };
 
-export { register, login };
+const logout = (req, res) => {
+    res.status(200).json({ auth: false, token: null });
+    console.log("User logged out successfully");
+};
+
+export { register, login, logout };
