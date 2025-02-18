@@ -1,4 +1,5 @@
-Running the Full Stack App:
+
+    Running the Full Stack App:
     Database:
         Install PostgreSQL on your local machine
         Following commands will create the databse
@@ -39,14 +40,14 @@ Running the Full Stack App:
         Start the development server "npm start run"
         Frontend should now be running at http://localhost:3000
 
-Salary Expectation:
-$25–$28 per hour 
+    Salary Expectation:
+    $25–$28 per hour 
 
-Why?  
-This project demonstrates my ability to build secure, scalable, 
-and user-friendly full-stack applications in but not limited to.
+    Why?  
+    This project demonstrates my ability to build secure, scalable, 
+    and user-friendly full-stack applications in but not limited to.
 
-- Frontend: React, TypeScript, Tailwind CSS
-- Backend: Node.js, Express, PostgreSQL
-- Security: Authentication & Encryption
-- Database Management & API Development
+    - Frontend: React, TypeScript, Tailwind CSS
+    - Backend: Node.js, Express, PostgreSQL
+    - Security: Authentication & Encryption
+    - Database Management & API Development
