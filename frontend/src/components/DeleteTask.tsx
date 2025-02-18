@@ -6,7 +6,6 @@ function DeleteTask() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Fetch tasks when component mounts
   useEffect(() => {
     const fetchTasks = async () => {
       const token = localStorage.getItem("token");
@@ -30,7 +29,6 @@ function DeleteTask() {
     fetchTasks();
   }, []);
 
-  // Handle task deletion
   const handleDeleteTask = async () => {
     if (!selectedTaskId) {
       setError("Please select a task to delete.");
@@ -68,7 +66,7 @@ function DeleteTask() {
   return (
     <div className="p-6">
       <h2 className="text-xl font-bold text-center text-white">Delete Task</h2>
-      <p className="text-center text-gray-300">Select a task to delete</p>
+      <p className="text-center text-white">Select a task to delete</p>
 
       {error && <p className="text-center text-red-500">{error}</p>}
       {success && <p className="text-center text-green-500">{success}</p>}
@@ -76,7 +74,7 @@ function DeleteTask() {
       <select
         value={selectedTaskId || ""}
         onChange={(e) => setSelectedTaskId(e.target.value)}
-        className="block w-full px-4 py-3 mt-4 text-lg text-white border focus:border-gray-900 focus:ring-1 focus:outline-none"
+        className="block w-full px-4 py-3 mt-4 text-lg text-black border focus:border-gray-900 focus:ring-1 focus:outline-none"
         >
         <option value="">Select a task</option>
         {tasks.map((task) => (
@@ -88,7 +86,7 @@ function DeleteTask() {
 
       <button
         onClick={handleDeleteTask}
-        className="mt-4 w-full px-4 py-3 font-semibold text-black bg-neutral-700 hover:bg-black"
+        className="mt-4 w-full px-4 py-3 font-semibold text-black bg-white hover:bg-black"
       >
         Delete
       </button>

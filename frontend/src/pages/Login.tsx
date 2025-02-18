@@ -47,13 +47,13 @@ const Login = () => {
           <input
             id="username"
             name="username"
-            type="text"
+            type="username"
             required
             autoComplete="username"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="block w-full px-4 py-3 text-lg text-black bg-white border border-transparent focus:border-neutral-900 focus:outline-none transition duration-200"
+            className="mt-4 block w-full px-4 py-3 text-lg text-black bg-white border border-transparent focus:border-neutral-900 focus:ring-1 focus:outline-none transition duration-200"
           />
 
           <input
@@ -73,7 +73,7 @@ const Login = () => {
           <button
             type="button"
             onClick={handleLogin}
-            className="w-full flex justify-center bg-white px-4 py-3 font-semibold text-black hover:bg-black"
+            className="w-full flex justify-center bg-white px-4 py-3 font-semibold text-black hover:bg-black hover:text-white"
           >
             Login
           </button>

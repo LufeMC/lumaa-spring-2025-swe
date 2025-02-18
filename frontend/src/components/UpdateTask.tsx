@@ -85,14 +85,14 @@ useEffect(() => {
   return (
     <div className="p-6">
       <h2 className="text-xl font-bold text-center text-white">Update Task</h2>
-      <p className="text-center text-gray-300">Select a task to edit</p>
+      <p className="text-center text-white">Select a task to edit</p>
 
       {error && <p className="text-center text-red-500">{error}</p>}
       {success && <p className="text-center text-green-500">{success}</p>}
 
       <select
         onChange={(e) => handleTaskSelect(e.target.value)}
-        className="block w-full px-4 py-3 mt-4 text-lg text-white border focus:border-gray-900 focus:ring-1 focus:outline-none">
+        className="block w-full px-4 py-3 mt-4 text-lg text-black border focus:border-gray-900 focus:ring-1 focus:outline-none">
         <option value="">Select a task</option>
         {tasks.map((task) => (
           <option key={task.id} value={task.id}>
@@ -106,27 +106,27 @@ useEffect(() => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
-          className="block w-full px-4 py-3 mt-4 text-lg text-white border focus:border-gray-900 focus:ring-1 focus:outline-none"
+          className="block w-full px-4 py-3 mt-4 text-lg text-black border focus:border-gray-900 focus:ring-1 focus:outline-none"
         />
 
         <input
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
-          className="block w-full px-4 py-3 mt-4 text-lg text-white border focus:border-gray-900 focus:ring-1 focus:outline-none"
+          className="block w-full px-4 py-3 mt-4 text-lg text-black border focus:border-gray-900 focus:ring-1 focus:outline-none"
         />
 
         <select
           value={isComplete ? "Completed" : "Not Completed"}
           onChange={(e) => setIsComplete(e.target.value === "Completed")}
-          className="block w-full px-4 py-3 mt-4 text-lg text-white border focus:border-gray-900 focus:ring-1 focus:outline-none">
+          className="block w-full px-4 py-3 mt-4 text-lg text-black border focus:border-gray-900 focus:ring-1 focus:outline-none">
           <option value="Not Completed">Not Completed</option>
           <option value="Completed">Completed</option>
         </select>
 
         <button
           onClick={handleUpdateTask}
-          className="w-full px-4 py-3 mt-4 font-semibold text-black bg-neutral-700 hover:bg-black"
+          className="w-full px-4 py-3 mt-4 font-semibold text-black bg-white hover:bg-black hover:text-white"
         >
           Update Task
         </button>

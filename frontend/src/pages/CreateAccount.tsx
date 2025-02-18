@@ -80,7 +80,7 @@ function CreateAccount() {
           <button
             type="button"
             onClick={handleRegister}
-            className="w-full flex justify-center bg-white px-4 py-3 font-semibold text-black hover:bg-black"
+            className="w-full flex justify-center bg-white px-4 py-3 font-semibold text-black hover:bg-black hover:text-white"
           >
             Sign up
           </button>

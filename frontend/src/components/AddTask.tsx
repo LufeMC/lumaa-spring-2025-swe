@@ -52,8 +52,8 @@ function AddTask() {
 
   return (
     <div className="p-6">
-      <h2 className="text-xl font-bold text-center">Add Task</h2>
-      <p className="text-center">Fill out add task form</p>
+      <h2 className="text-xl font-bold text-center text-white">Add Task</h2>
+      <p className="text-center text-white">Fill out add task form</p>
 
       {error && <p className="text-center text-red-500">{error}</p>}
       {success && <p className="text-center text-green-500">{success}</p>}
@@ -61,19 +61,19 @@ function AddTask() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
-          className="block w-full px-4 py-3 mt-4 text-lg text-white border focus:border-gray-900 focus:ring-1 focus:outline-none"
+          className="block w-full px-4 py-3 mt-4 text-lg text-black border focus:border-gray-900 focus:ring-1 focus:outline-none"
           />
 
         <input
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
-          className="block w-full px-4 py-3 mt-4 text-lg text-white border focus:border-gray-900 focus:ring-1 focus:outline-none"
+          className="block w-full px-4 py-3 mt-4 text-lg text-black border focus:border-gray-900 focus:ring-1 focus:outline-none"
           />
 
         <button
           onClick={handleAddTask}
-          className="mt-4 mb-4 w-full flex justify-center bg-neutral-700 px-4 py-3 font-semibold text-black hover:bg-black"
+          className="mt-4 mb-4 w-full flex justify-center bg-white px-4 py-3 font-semibold text-black hover:bg-black hover:text-white"
         >
           Add Task
         </button>

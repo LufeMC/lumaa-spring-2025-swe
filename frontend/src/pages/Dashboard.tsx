@@ -46,9 +46,12 @@ function Dashboard() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/";
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/";
+    }
   };
 
   return (
@@ -91,7 +94,7 @@ function Dashboard() {
               ))}
             </div>
           ) : (
-            <p className="text-white text-xl">No tasks found</p>
+            <p className="text-white text-xl">No tasks found, add a task?</p>
           )}
         </div>
       </div>
