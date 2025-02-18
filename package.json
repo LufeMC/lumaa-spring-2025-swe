@@ -15,6 +15,7 @@
     "install:frontend": "cd task-management-frontend && npm install"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "concurrently": "^8.2.2"
   }
 }

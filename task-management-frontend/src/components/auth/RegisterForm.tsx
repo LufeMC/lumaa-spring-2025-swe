@@ -3,7 +3,7 @@ import { TextField, Button, Box, Paper, Typography, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { apiClient } from '../../api/client';
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -13,11 +13,10 @@ export const LoginForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await apiClient.post('/auth/login', formData);
-      localStorage.setItem('token', response.data.token);
-      navigate('/');
+      await apiClient.post('/auth/register', formData);
+      navigate('/login');
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Registration failed:', error);
     }
   };
 
@@ -29,7 +28,7 @@ export const LoginForm = () => {
       minHeight="100vh"
     >
       <Paper sx={{ p: 4, maxWidth: 400, width: '100%' }}>
-        <Typography variant="h5" mb={3}>Login</Typography>
+        <Typography variant="h5" mb={3}>Register</Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             margin="normal"
@@ -57,11 +56,11 @@ export const LoginForm = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Register
           </Button>
           <Box textAlign="center">
-            <Link href="/register" variant="body2">
-              Don't have an account? Sign up
+            <Link href="/login" variant="body2">
+              Already have an account? Sign in
             </Link>
           </Box>
         </Box>
