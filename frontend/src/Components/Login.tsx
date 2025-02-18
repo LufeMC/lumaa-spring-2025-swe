@@ -22,16 +22,14 @@ const Login: React.FC = () => {
       const data = await response.json();
       const token = data.token;
   
-      // Store the token (e.g., in localStorage)
+      // store token in local storage 
       localStorage.setItem('token', token);
   
       console.log('Login successful, token:', token);
-      // Redirect to user dashboard
-      // You might want to use React Router for this
-      // history.push('/dashboard');
+      // redirect to user dashboard
     } catch (error) {
       console.error('Login error:', error);
-      // Handle login error (e.g., show error message to user)
+      // handle error
     }
   };
   
