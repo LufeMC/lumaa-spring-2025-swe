@@ -4,12 +4,37 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Logging in user:", { username, password });
-    // Add API call here to log in the user
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+  
+      const data = await response.json();
+      const token = data.token;
+  
+      // Store the token (e.g., in localStorage)
+      localStorage.setItem('token', token);
+  
+      console.log('Login successful, token:', token);
+      // Redirect to user dashboard
+      // You might want to use React Router for this
+      // history.push('/dashboard');
+    } catch (error) {
+      console.error('Login error:', error);
+      // Handle login error (e.g., show error message to user)
+    }
   };
-
+  
   return (
     <div>
       <h1>Login</h1>
