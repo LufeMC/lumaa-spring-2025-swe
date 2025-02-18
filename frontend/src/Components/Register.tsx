@@ -6,20 +6,54 @@ const Register: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     // Check if passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
+  
+    try {
+      // check if username exists
+      const checkResponse = await fetch(`http://localhost:3001/api/register/checkUser?username=` + username);
+      const checkData = await checkResponse.json();
+      
+      console.log(checkData);
+      if (checkData.exists) {
+        setError("Username already exists");
+        return;
+      }
+  
+      // if username is available, create the user 
+      const registerResponse = await fetch('http://localhost:3001/api/register/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      if (!registerResponse.ok) {
+        throw new Error('Registration failed');
+      }
+  
+      // success
+      console.log('User registered successfully');
+      setError("");
 
-    // Clear error and send data to backend
-    setError("");
-    console.log("Registering user:", { username, password });
-    // Add API call here to register the user
+      //clear the form 
+      setUsername("");
+      setPassword("");
+      setConfirmPassword("");
+  
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError("Registration failed. Please try again.");
+    }
   };
+  
 
   return (
     <div>
