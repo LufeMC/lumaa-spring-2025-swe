@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './index.css';
 
 interface Task {
+    id: number;
     message: string;
     title: string;
     isComplete: boolean;
@@ -53,7 +54,7 @@ const TodoListPage: React.FC = () => {
         })
         .then(response => response.json())
         .then(data => {
-            setTodos([...todos, { message: newTaskMessage, title: newTaskTitle, isComplete: false }]);
+            setTodos([...todos, { id: data.id, message: newTaskMessage, title: newTaskTitle, isComplete: false }]);
             console.log("Task added:", data);
         })
         .catch(error => {
@@ -63,7 +64,7 @@ const TodoListPage: React.FC = () => {
 
     const handleDelete = (taskToDelete: Task) => {
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/todos/${taskToDelete.title}`, {
+        fetch(`http://localhost:3000/todos/${taskToDelete.id}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -72,7 +73,7 @@ const TodoListPage: React.FC = () => {
         })
         .then(response => response.json())
         .then(data => {
-            setTodos(todos.filter(task => task.title !== taskToDelete.title));
+            setTodos(todos.filter(task => task.id !== taskToDelete.id));
             console.log("Task deleted:", data);
         })
         .catch(error => {
@@ -90,17 +91,17 @@ const TodoListPage: React.FC = () => {
         if (!editingTask) return;
 
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/todos/${editingTask.title}`, {
+        fetch(`http://localhost:3000/todos/${editingTask.id}`, {
             method: "PUT",
             headers: {
                 'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ message: newTaskMessage, title: newTaskTitle })
+            body: JSON.stringify({ message: newTaskMessage, title: newTaskTitle, isComplete: editingTask.isComplete })
         })
         .then(response => response.json())
         .then(data => {
-            setTodos(todos.map(task => task.title === editingTask.title ? { ...task, message: newTaskMessage, title: newTaskTitle } : task));
+            setTodos(todos.map(task => task.id === editingTask.id ? { ...task, message: newTaskMessage, title: newTaskTitle } : task));
             setEditingTask(null);
             setNewTaskMessage("");
             setNewTaskTitle("");
@@ -113,21 +114,21 @@ const TodoListPage: React.FC = () => {
 
     const handleComplete = (taskToComplete: Task) => {
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:3000/todos/${taskToComplete.title}`, {
+        fetch(`http://localhost:3000/todos/${taskToComplete.id}/complete`, {
             method: "PUT",
             headers: {
                 'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ ...taskToComplete, isComplete: true })
+            body: JSON.stringify({ isComplete: !taskToComplete.isComplete })
         })
         .then(response => response.json())
         .then(data => {
-            setTodos(todos.filter(task => task.title !== taskToComplete.title));
-            console.log("Task completed:", data);
+            setTodos(todos.map(task => task.id === taskToComplete.id ? { ...task, isComplete: !task.isComplete } : task));
+            console.log("Task completion status updated:", data);
         })
         .catch(error => {
-            console.error("Error completing task:", error);
+            console.error("Error updating task completion status:", error);
         });
     };
 
@@ -137,35 +138,37 @@ const TodoListPage: React.FC = () => {
     };
 
     return (
-        <div className="container">
+        <div className="container mx-auto p-4">
             <div className="overlay"></div>
-            <div className="content">
-                <h1>Tasks</h1>
+            <div className="content bg-white p-6 rounded-lg shadow-md">
+                <h1 className="text-2xl font-bold mb-4">Tasks</h1>
                 <AddList onAdd={handleAdd} />
                 <TodoList todos={todos} onDelete={handleDelete} onEdit={handleEdit} onComplete={handleComplete} />
                 {editingTask && (
-                    <div>
+                    <div className="mt-4">
                         <input 
                             type="text" 
                             value={newTaskTitle} 
                             onChange={(e) => setNewTaskTitle(e.target.value)} 
                             placeholder="Edit task title"
+                            className="border p-2 rounded mb-2 w-full"
                         />
                         <input 
                             type="text" 
                             value={newTaskMessage} 
                             onChange={(e) => setNewTaskMessage(e.target.value)} 
                             placeholder="Edit task message (optional)"
+                            className="border p-2 rounded mb-2 w-full"
                             onKeyPress={(e) => {
                                 if (e.key === 'Enter') {
                                     handleUpdate();
                                 }
                             }}
                         />
-                        <button onClick={handleUpdate}>Update</button>
+                        <button onClick={handleUpdate} className="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
                     </div>
                 )}
-                <button onClick={handleLogout}>Logout</button>
+                <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded mt-4">Logout</button>
             </div>
         </div>
     );
@@ -202,21 +205,23 @@ const AddList: React.FC<AddListProps> = ({ onAdd }) => {
     };
 
     return (
-        <div>
+        <div className="mb-4">
             <input 
                 type="text" 
                 value={newTaskTitle} 
                 onChange={handleChangeTitle} 
                 placeholder="Add a new task title"
+                className="border p-2 rounded mb-2 w-full"
             />
             <input 
                 type="text" 
                 value={newTaskMessage} 
                 onChange={handleChangeMessage} 
                 placeholder="Add task description (optional)"
+                className="border p-2 rounded mb-2 w-full"
                 onKeyPress={handleKeyPress}
             />
-            <button onClick={handleAdd}>+</button>
+            <button onClick={handleAdd} className="bg-green-500 text-white px-4 py-2 rounded">+</button>
         </div>
     );
 };
@@ -230,7 +235,6 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ todos, onDelete, onEdit, onComplete }) => {
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, task: Task) => {
-        event.preventDefault(); // Prevent the default checkbox behavior
         onComplete(task);
     };
 
@@ -238,15 +242,20 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onDelete, onEdit, onComplete
         <div>
             <ul style={{ listStyleType: 'none' }}>
                 {todos.map((todo, index) => (
-                    <li key={index} style={{ textDecoration: todo.isComplete ? 'line-through' : 'none' }}>
-                        <input 
-                            type="checkbox" 
-                            onChange={(event) => handleCheckboxChange(event, todo)} 
-                            checked={todo.isComplete}
-                        /> 
-                        <strong>{todo.title}</strong>: {todo.message} {todo.isComplete ? "(Completed)" : ""}
-                        <button onClick={() => onEdit(todo)}>Edit</button>
-                        <button onClick={() => onDelete(todo)}>Delete</button>
+                    <li key={index} className="flex items-center justify-between p-2 border-b" style={{ textDecoration: todo.isComplete ? 'line-through' : 'none' }}>
+                        <div className="flex items-center">
+                            <input 
+                                type="checkbox" 
+                                onChange={(event) => handleCheckboxChange(event, todo)} 
+                                checked={todo.isComplete}
+                                className="mr-2"
+                            /> 
+                            <strong>{todo.title}</strong>: {todo.message} {todo.isComplete ? "(Completed)" : ""}
+                        </div>
+                        <div>
+                            <button onClick={() => onEdit(todo)} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">Edit</button>
+                            <button onClick={() => onDelete(todo)} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+                        </div>
                     </li>
                 ))}
             </ul>
