@@ -28,7 +28,7 @@ const Register: React.FC<RegisterProps> = ({ setAuth }) => {
       if (error.response && error.response.status === 400) {
         setError('User already exists. Please log in.');
       } else {
-        setError('An error occurred. Please try again.');
+        setError('User already exists. Please log in.');
       }
 
 
