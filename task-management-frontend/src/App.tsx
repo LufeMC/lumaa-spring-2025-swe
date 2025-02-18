@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import TaskList from './components/TaskList';
@@ -10,21 +10,18 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      setIsAuthenticated(true);
-    }
+    setIsAuthenticated(!!token);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    setIsAuthenticated(false); 
-    navigate('/'); 
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+    navigate('/'); // Redirect to homepage after logout
   };
-  
 
   return (
     <div>
-      {/* Only show nav when not authenticated */}
+      {/* ✅ Always show Login/Register buttons at the top when NOT logged in */}
       {!isAuthenticated && (
         <nav>
           <Link to="/login">Login</Link>
@@ -32,21 +29,22 @@ const App: React.FC = () => {
         </nav>
       )}
 
-      {/* Only render the container when needed */}
-      {isAuthenticated || window.location.pathname.includes('login') || window.location.pathname.includes('register') ? (
-        <div className="container">
-          <Routes>
-            {!isAuthenticated ? (
-              <>
-                <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
-                <Route path="/register" element={<Register setAuth={setIsAuthenticated} />} />
-              </>
-            ) : (
-              <Route path="/tasks" element={<TaskList />} />
-            )}
-          </Routes>
-        </div>
-      ) : null}
+      <Routes>
+        {!isAuthenticated ? (
+          <>
+            {/* ✅ Homepage only shows Login/Register buttons */}
+            <Route path="/" element={null} />
+            {/* ✅ Clicking "Login" or "Register" navigates to the respective form */}
+            <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
+            <Route path="/register" element={<Register setAuth={setIsAuthenticated} />} />
+          </>
+        ) : (
+          <>
+            <Route path="/tasks" element={<TaskList />} />
+            <Route path="*" element={<Navigate to="/tasks" />} /> {/* Redirect unknown paths */}
+          </>
+        )}
+      </Routes>
     </div>
   );
 };
