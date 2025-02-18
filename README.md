@@ -19,11 +19,13 @@ Users can register, log in, create, update, and delete tasks.
 
 
   ## Inside the PostgreSQL console, run the following SQL commands:
+  ## set up the users
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     password TEXT NOT NULL
 );
+  ## Set us the tasks
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
