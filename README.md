@@ -42,9 +42,10 @@ CREATE TABLE tasks (
 ## Create a .env file in the backend directory
     PORT=5001
     DATABASE_URL=postgres://<DB_USER>:<DB_PASSWORD>@localhost:5432/task_manager
-    WT_SECRET=<your_jwt_secret>
+    JWT_SECRET=<your_jwt_secret>
 ## create the database (outlined above)
     psql -U <your_username> -d task_manager
+    database outlined above ^^
 ## start backend server
     npm start
     npm run dev
@@ -57,4 +58,21 @@ CREATE TABLE tasks (
     npm run dev
 ## visit in browser
     http://localhost:5173
+
+
+## Video link demo
+........
+
+## Salary Expectations
+    Between $63,000 and $75,000 yearly
+    $5250 - $6250 monthly
+    while this is comparable to other similar internships if this does not align with companys expectations for salary I am flexable and willing to negotiate
+    if everything else aligns
+
+## Personal info
+    email: stjense5@asu.edu // personal email: samuelj1316@gmail.com
+    phone: (605) 929-1796
+    linkedin: www.linkedin.com/in/samueltjensen
+
+
 
