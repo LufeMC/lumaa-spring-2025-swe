@@ -4,3 +4,7 @@ build/
 dist/
 *.log
 .DS_Store 
+package-lock.json
+tests/
+frontend/src/tests/
+frontend/package-lock.json
