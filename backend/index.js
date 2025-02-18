@@ -46,7 +46,7 @@ app.use(authenticate);
 
 // Get tasks
 app.get('/todos', (req, res) => {
-    const queryText = 'SELECT message, title, isComplete FROM todolist WHERE email = $1';
+    const queryText = 'SELECT message, title FROM todolist WHERE email = $1';
     db.query(queryText, [req.user.email], (err, result) => {
         if (err) {
             console.error("Error executing query", err.stack);
@@ -59,8 +59,8 @@ app.get('/todos', (req, res) => {
 // Create task
 app.post('/todos', (req, res) => {
     const { message, title } = req.body;
-    const queryText = 'INSERT INTO todolist (message, title, email, isComplete) VALUES ($1, $2, $3, $4)';
-    db.query(queryText, [message, title, req.user.email, false], (err, result) => {
+    const queryText = 'INSERT INTO todolist (message, title, email) VALUES ($1, $2, $3)';
+    db.query(queryText, [message, title, req.user.email], (err, result) => {
         if (err) {
             console.error("Error executing query", err.stack);
             return res.status(500).json({ error: 'Error adding task' });
@@ -72,9 +72,9 @@ app.post('/todos', (req, res) => {
 // Update task
 app.put('/todos/:title', (req, res) => {
     const oldTitle = req.params.title;
-    const { message, title, isComplete } = req.body;
-    const queryText = 'UPDATE todolist SET message = $1, title = $2, isComplete = $3 WHERE title = $4 AND email = $5';
-    db.query(queryText, [message, title, isComplete, oldTitle, req.user.email], (err, result) => {
+    const { message, title } = req.body;
+    const queryText = 'UPDATE todolist SET message = $1, title = $2 WHERE title = $3 AND email = $4';
+    db.query(queryText, [message, title, oldTitle, req.user.email], (err, result) => {
         if (err) {
             console.error("Error executing query", err.stack);
             return res.status(500).json({ error: 'Error updating task' });
