@@ -1,119 +1,107 @@
-# Full-Stack Coding Challenge
+### 📌 **LUMAA TASK MANAGER**  
+_Lumaa task manager, it is the coding challege which was given by lumaa company_
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
-
----
-
-## Overview
-
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
-
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
-
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
+![Project Preview](https://res.cloudinary.com/dcrolfqsj/image/upload/v1739865530/ukzdks0ikyunha8e1ecx.png)  
 
 ---
 
-## Requirements
+## 🚀 **Getting Started**  
+Follow these steps to set up and run the project on your local machine.
 
-### 1. Authentication
-
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
-
-### 2. Backend (Node.js or Nest.js)
-
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
-
-### 3. Frontend (React + TypeScript)
-
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+### **Prerequisites**  
+- [Node.js](https://nodejs.org/) (Ensure you have Node.js installed)
+- [Git](https://git-scm.com/)
+- Package Manager: `npm` or `yarn` (Choose one)
 
 ---
 
-## Deliverables
+## 📂 **Backend Setup**  
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
+### **Step 1: Clone the Repository**  
+```bash
+git clone https://github.com/FazliddinFayziev/lumaa-spring-2025-swe
+cd lumaa-spring-2025-swe
+```
 
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+### **Step 2: Create `.env` File**  
+Before starting the backend, create a `.env` file in the root directory. 
+.env is being shared only purpose of check, otherwise I would never share any secret data!!! 
+Here’s an example of what the `.env` file should contain:  
+```env
+PGHOST='ep-divine-paper-a4pnjryv-pooler.us-east-1.aws.neon.tech'
+PGDATABASE='neondb'
+PGUSER='neondb_owner'
+PGPASSWORD='npg_HB8qwKUPZO5r'
+JWT_SECRET=278e2ad23d26e8583c2f5689cc972be2657f65f01a2f3c921687d10b96af359ff31a8cebd56300430260da81427ade7f1a185fe3a56ccc0a988384a53d71f5104d2d0cdd1799e2d106f830a9be34675dbac9dcd9b92cdafd63d4ee615b0d3559e1ae88c1a2c98384538d8775b2b23ac6c7a10ab1f5ba54917a319a74dd607269a14e01aff840faa85f67eaee2b5a8549e4a3714a51cef1233d4a5baa51e762f6d86c4b81c1ec02e2ccacc30cb1f8146f37ec082133f6f38984c1042c99d9da6d809587adaf5d5116b8c138fbedfeca547a699bef66ceaeb8ce6e89f4e26f5be09f46da7ad5116800dcd1846d185cc3036e1275724bd73814e43ac7198b2e54a1
+```
+
+### **Step 3: Install Dependencies**  
+```bash
+cd backend
+npm install
+```
+
+### **Step 4: Start the Backend Server**  
+```bash
+npm start
+```
+Your backend will now run at `http://localhost:5000`.
 
 ---
 
-## Evaluation Criteria
+## 🎨 **Frontend Setup**  
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
+### **Step 1: Navigate to the Frontend Directory**  
+```bash
+cd frontend
+```
 
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
+### **Step 2: Install Dependencies**  
+```bash
+npm install
+```
 
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
+### **Step 3: Start the Frontend Server**  
+```bash
+npm run dev
+```
+Your frontend will be available at `http://localhost:5173` (or another port if assigned).
 
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
+---
 
-Good luck, and we look forward to your submission!
+## 📸 **Project Screenshots**  
+
+### **Homepage Preview**  
+![Homepage_1](https://res.cloudinary.com/dcrolfqsj/image/upload/v1739865727/m2dezvub6mhun3exlc5s.png)  
+![Homepage_2](https://res.cloudinary.com/dcrolfqsj/image/upload/v1739865530/ukzdks0ikyunha8e1ecx.png)  
+
+### **Task Management UI**  
+![Auth_1](https://res.cloudinary.com/dcrolfqsj/image/upload/v1739865727/tdohaz3gvk0hpejr7yd6.png)  
+![Auth_2](https://res.cloudinary.com/dcrolfqsj/image/upload/v1739865728/jcri4al32a3shukfsh9t.png)  
+
+---
+
+## ✅ **Features**  
+✔️ User Authentication (Login/Signup)  
+✔️ Task Management (Create, Edit, Delete, Toggle Complete)  
+✔️ JWT-based Secure API  
+✔️ Responsive UI with Material-UI  
+
+---
+
+## 📖 **API Endpoints**  
+
+### **Authentication**  
+- `POST /auth/login` → User Login  
+- `POST /auth/signup` → Register New User  
+
+### **Tasks**  
+- `GET /tasks` → Fetch all tasks  
+- `POST /tasks` → Create a task  
+- `PUT /tasks/:id` → Update a task  
+- `DELETE /tasks/:id` → Remove a task  
+
+---
+
+## 🔗 **Contact & Support**  
+For any issues, reach out via [GitHub](https://github.com/FazliddinFayziev). 
