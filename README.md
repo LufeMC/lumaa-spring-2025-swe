@@ -66,10 +66,10 @@ CREATE TABLE tasks (
 ........
 
 ## Salary Expectations
-    Between $63,000 and $75,000 yearly
-    $5250 - $6250 monthly
-    while this is comparable to other similar internships if this does not align with companys expectations for salary I am flexable and willing to negotiate
-    if everything else aligns
+    Between $55,000 and $72,000 yearly
+    $4500 - $6000 monthly
+    wwhile most comparable full stack internships avg right in the middle of that range,
+    I am flexible if everything else aligns and am able to negotiate upon an agreed rate.
 
 ## Personal info
     email: stjense5@asu.edu // personal email: samuelj1316@gmail.com
