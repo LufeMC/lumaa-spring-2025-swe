@@ -1,46 +1,115 @@
-# Getting Started with Create React App
+# Task Management Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack task management application built with React, TypeScript, Node.js, and PostgreSQL.
 
-## Available Scripts
+## Backend Setup
 
-In the project directory, you can run:
+### Prerequisites
+- Node.js v20 or higher
+- PostgreSQL installed and running
+- npm or yarn package manager
 
-### `npm start`
+### Environment Variables
+Create a `.env` file in the `backend` directory:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+env
+PORT=3001
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+DB_DATABASE=task_management
+JWT_SECRET=your_jwt_secret
+```
+###Database Setup
+1. Create a PostgreSQL database:
+```bash
+CREATE DATABASE task_management;
+```
+2. Run the migrations:
+```bash
+cd backend
+npm install
+npm run migration:run
+```
+###Running the Backend using Development mode:
+make sure you have the environment variables set up in the `.env` file.
+and you are in the backend directory.
+```bash
+cd backend
+npm run dev
+```
+## Frontend Setup
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Prerequisites
+- Node.js v20 or higher
+- npm or yarn package manager
 
-### `npm test`
+### Environment Variables
+Create a `.env` file in the `task-management-frontend` directory:
+make sure you have the environment variables set up in the `.env` file.
+```
+REACT_APP_API_URL=http://localhost:3001
+```
+###Running the Frontend:
+make sure you are in the task-management-frontend directory.
+```bash
+npm install
+npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+####To test the api
+# 1. Register a new user
+curl -X POST http://localhost:3001/auth/register \
+-H "Content-Type: application/json" \
+-d '{
+  "username": "testuser",
+  "password": "password123"
+}'
 
-### `npm run build`
+# 2. Login and get token
+curl -X POST http://localhost:3001/auth/login \
+-H "Content-Type: application/json" \
+-d '{
+  "username": "testuser",
+  "password": "password123"
+}'
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Save the token from the response
+export TOKEN="your_token_here"
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 3. Create a new task
+curl -X POST http://localhost:3001/tasks \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer $TOKEN" \
+-d '{
+  "title": "Test Task",
+  "description": "This is a test task",
+  "isComplete": false
+}'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 4. Get all tasks
+curl -X GET http://localhost:3001/tasks \
+-H "Authorization: Bearer $TOKEN"
 
-### `npm run eject`
+# 5. Update a task (replace 1 with actual task ID)
+curl -X PUT http://localhost:3001/tasks/1 \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer $TOKEN" \
+-d '{
+  "isComplete": true
+}'
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# 6. Delete a task (replace 1 with actual task ID)
+curl -X DELETE http://localhost:3001/tasks/1 \
+-H "Authorization: Bearer $TOKEN"
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Short Video Demo
+Please visit the following link to see the short video demo:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+https://drive.google.com/file/d/19hYpexkviewqF74SEF9DhaIGcxemBvr8/view?usp=sharing
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Desired Salary
+I would like to be paid 3000$ per month. If it's too high, please let me know we can discuss.
