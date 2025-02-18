@@ -184,7 +184,7 @@ const AddList: React.FC<AddListProps> = ({ onAdd }) => {
                 type="text" 
                 value={newTaskMessage} 
                 onChange={handleChangeMessage} 
-                placeholder="Add a new task message"
+                placeholder="Add task description"
                 onKeyPress={handleKeyPress}
             />
             <button onClick={handleAdd}>+</button>
