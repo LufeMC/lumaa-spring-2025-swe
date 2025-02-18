@@ -1,0 +1,39 @@
+/* filepath: /c:/Users/User/Documents/Projects/Todo-list/frontend/src/App.css */
+
+.app {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-image: url('/styles/backg.jpg'); /* Ensure the path is correct */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* Adjust the height as needed */
+}
+
+.app .todo-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.app .todo-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.app .todo-checkbox {
+    margin-right: 10px;
+}
+
+.app .add-list-input {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.app .add-list-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
