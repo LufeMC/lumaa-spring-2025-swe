@@ -58,7 +58,7 @@ function DeleteTask() {
       setSuccess("Task deleted successfully!");
 
       window.location.reload();
-      setTasks(tasks.filter((task) => task.id !== Number(selectedTaskId))); // Remove task from list
+      setTasks(tasks.filter((task) => task.id !== Number(selectedTaskId)));
       setSelectedTaskId(null);
     } catch (err: any) {
       setError(err.message);
