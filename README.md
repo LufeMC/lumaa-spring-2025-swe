@@ -68,7 +68,7 @@ CREATE TABLE tasks (
 ## Salary Expectations
     Between $55,000 and $72,000 yearly
     $4500 - $6000 monthly
-    wwhile most comparable full stack internships avg right in the middle of that range,
+    While most comparable full stack internships avg right in the middle of that range,
     I am flexible if everything else aligns and am able to negotiate upon an agreed rate.
 
 ## Personal info
