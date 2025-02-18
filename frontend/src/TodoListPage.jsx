@@ -101,7 +101,7 @@ const TodoListPage = () => {
         <div className="container">
             <div className="overlay"></div>
             <div className="content">
-                <h1>Todo List</h1>
+                <h1>Tasks</h1>
                 <AddList onAdd={handleAdd} />
                 <TodoList todos={todos} onDelete={handleDelete} onEdit={handleEdit} />
                 {editingTask && (
@@ -110,6 +110,11 @@ const TodoListPage = () => {
                             type="text" 
                             value={newTaskName} 
                             onChange={(e) => setNewTaskName(e.target.value)} 
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleUpdate();
+                                }
+                            }}
                         />
                         <button onClick={handleUpdate}>Update</button>
                     </div>
@@ -133,12 +138,19 @@ const AddList = ({ onAdd }) => {
         }
     };
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAdd();
+        }
+    };
+
     return (
         <div>
             <input 
                 type="text" 
                 value={newTask} 
                 onChange={handleChange} 
+                onKeyPress={handleKeyPress}
                 placeholder="Add a new task" 
             />
             <button onClick={handleAdd}>+</button>
