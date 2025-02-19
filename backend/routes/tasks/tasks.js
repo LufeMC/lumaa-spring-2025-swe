@@ -43,4 +43,35 @@ router.post('/createTask', authMiddleware, async (req, res) => {
   }
 });
 
+//update event 
+router.put('/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, isComplete } = req.body;
+    const userId = req.user.userId; 
+
+    const result = await Task.update(
+      { title, description, isComplete },
+      {
+        where: { 
+          id,
+          userId // make sure the user owns this task 
+        }
+      }
+    );
+
+    // check if the task was updated
+    if (result[0] === 1) {
+      const updatedTask = await Task.findByPk(id);
+      return res.status(200).json(updatedTask);
+    }
+    
+    return res.status(404).json({ error: 'Task not found or no changes made' });
+  } catch (error) {
+    console.error('Error updating task:', error);
+    res.status(500).json({ error: 'Failed to update task' });
+  }
+});
+
+
 module.exports = router;
