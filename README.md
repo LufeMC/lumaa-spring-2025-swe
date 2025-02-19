@@ -25,7 +25,7 @@ CREATE TABLE users (
     username VARCHAR(255) UNIQUE NOT NULL,
     password TEXT NOT NULL
 );
-  ## Set us the tasks
+  ## Set up the tasks using SQL
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -45,9 +45,10 @@ CREATE TABLE tasks (
     PORT=5001
     DATABASE_URL=postgres://<DB_USER>:<DB_PASSWORD>@localhost:5432/task_manager
     JWT_SECRET=<your_jwt_secret>
-## create the database (outlined above)
+## Create and set up the database (did not use database migration)
     psql -U <your_username> -d task_manager
-    database outlined above ^^
+    CREATE DATABASE task_manager;
+    -- Run the SQL commands from above to create the 'users' and 'tasks' tables
 ## start backend server
     npm start
     npm run dev
@@ -63,18 +64,21 @@ CREATE TABLE tasks (
 
 
 ## Video link demo
-........
+  ## GITHUB link (requires download to watch), video in repo
+  https://github.com/samj1098/lumaa-spring-2025-swe/blob/main/task-manager-demo.mp4
+  ## Youtube link (watch in browser)
+  https://youtu.be/xc0t8nmCAHE
+
 
 ## Salary Expectations
-    Between $55,000 and $72,000 yearly
-    $4500 - $6000 monthly
-    While most comparable full stack internships avg right in the middle of that range,
-    I am flexible if everything else aligns and am able to negotiate upon an agreed rate.
+  Between $48,000 and $72,000 yearly
+  $4,000 - $6,000 monthly**
+  While most comparable full-stack internships average in the middle of this range,  
+  I am flexible depending on the tech stack and mentorship opportunities.
+  I am open to negotiation for a fair rate that aligns with responsibilities.
 
-## Personal info
-    email: stjense5@asu.edu // personal email: samuelj1316@gmail.com
-    phone: (605) 929-1796
-    linkedin: www.linkedin.com/in/samueltjensen
-
-
-
+## Personal Info
+**Email:** stjense5@asu.edu  
+**Personal Email:** samuelj1316@gmail.com  
+**Phone:** (605) 929-1796  
+**LinkedIn:** [www.linkedin.com/in/samueltjensen](https://www.linkedin.com/in/samueltjensen)
