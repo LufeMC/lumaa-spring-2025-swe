@@ -1,0 +1,44 @@
+button {
+    border: solid 1px black;
+    margin-top: 10px;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+}
+
+.header h2 {
+    text-align: center;
+}
+
+.header button {
+    justify-self: end;
+}
+
+.task {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+}
+
+.task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.task-list li {
+    border: 1px solid black; 
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.description{
+    overflow: auto;
+}
