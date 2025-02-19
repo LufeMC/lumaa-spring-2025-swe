@@ -36,6 +36,7 @@ Create a .env file inside task-manager-backend and add:
 
 PORT=5000
 DB_HOST=localhost
+DB_PORT=5432  # Added this line
 DB_USER=task_user
 DB_PASSWORD=task_password
 DB_NAME=task_manager_db
@@ -63,7 +64,7 @@ npm start
 The frontend will run on: http://localhost:3000
 
 📌 4. Notes on Testing
-✅ Testing API with curl
+✅ Testing backend API with curl
 Register a user:
 curl -X POST -H "Content-Type: application/json" \
 -d '{"username":"testuser", "password":"testpassword"}' \
@@ -75,10 +76,13 @@ curl -X POST -H "Content-Type: application/json" \
 http://localhost:5000/auth/login
 
 Create a task:
-curl -X POST -H "Content-Type: application/json" \
--H "Authorization: Bearer YOUR_TOKEN_HERE" \
--d '{"title":"New Task", "description":"Task description"}' \
-http://localhost:5000/tasks
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -d '{"title":"New Task", "description":"Task description"}' \
+  http://localhost:5000/tasks
+
+
 Replace YOUR_TOKEN_HERE with the token received from the login response.
 
 ✅ Testing Frontend
