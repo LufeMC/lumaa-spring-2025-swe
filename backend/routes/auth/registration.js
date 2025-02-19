@@ -1,7 +1,6 @@
-// routes/auth.js
 const express = require('express');
 const router = express.Router();
-const User = require('../database/models/user'); 
+const User = require('../../database/models/user');
 
 // check if a user with the same username exists 
 router.get('/checkUser', async (req, res) => {
@@ -27,7 +26,7 @@ router.get('/checkUser', async (req, res) => {
 });
 
 // create a new user 
-router.post('/register', async (req, res) => {
+router.post('/createUser', async (req, res) => {
   try {
     const { username, password } = req.body;
 
