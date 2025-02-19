@@ -16,34 +16,8 @@ A full-stack task management application built with React + TypeScript (frontend
   - Task filtering (All/Complete/Incomplete)
   - Multiple sorting options (Date/Title/Status)
   - Task descriptions support
+  - Task filtering and sorting
   - Real-time feedback
-  
-- Modern UI/UX
-  - Material-UI components
-  - Responsive design
-  - Loading states and animations
-  - Toast notifications
-  - Form validation
-  - Error handling
-  - Intuitive task management
-
-## Technical Stack
-
-### Frontend
-- React 18 with TypeScript
-- Material-UI for components
-- React Router for navigation
-- Axios for API calls
-- Notistack for notifications
-- Jest and Testing Library for tests
-
-### Backend
-- Node.js with TypeScript
-- Express.js for API
-- TypeORM for database
-- PostgreSQL for storage
-- JWT for authentication
-- Bcrypt for password hashing
 
 ## Prerequisites
 
@@ -51,25 +25,29 @@ A full-stack task management application built with React + TypeScript (frontend
 - PostgreSQL (v12 or higher)
 - npm or yarn
 
-## Setup Instructions
-
-### Database Setup
+## Database Setup
 
 1. Install PostgreSQL if not already installed:
    ```bash
+   # Windows
+   Download and install from https://www.postgresql.org/download/windows/
+   
    # Ubuntu
    sudo apt update
    sudo apt install postgresql postgresql-contrib
-
-   # macOS with Homebrew
+   
+   # macOS
    brew install postgresql
    ```
 
 2. Start PostgreSQL service:
    ```bash
+   # Windows
+   net start postgresql
+
    # Ubuntu
    sudo service postgresql start
-
+   
    # macOS
    brew services start postgresql
    ```
@@ -81,9 +59,26 @@ A full-stack task management application built with React + TypeScript (frontend
 
 4. The tables will be automatically created by TypeORM when you start the backend.
 
-### Backend Setup
+## Environment Variables
 
-1. Navigate to the backend directory:
+### Backend (.env)
+Create a `.env` file in the backend directory:
+```env
+PORT=3000
+JWT_SECRET=your_jwt_secret_key_here
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=your_password_here
+DB_NAME=task_manager
+```
+
+### Frontend
+No additional environment variables needed as the API URL is configured in the Vite config to proxy to http://localhost:3000.
+
+## Backend Setup
+
+1. Navigate to backend directory:
    ```bash
    cd backend
    ```
@@ -93,32 +88,21 @@ A full-stack task management application built with React + TypeScript (frontend
    npm install
    ```
 
-3. Create a `.env` file in the backend directory:
-   ```env
-   PORT=3000
-   JWT_SECRET=your_jwt_secret_key_here
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_USERNAME=postgres
-   DB_PASSWORD=your_password_here
-   DB_NAME=task_manager
-   ```
-
-4. Build the project:
+3. Build the project:
    ```bash
    npm run build
    ```
 
-5. Start the development server:
+4. Start development server:
    ```bash
    npm run dev
    ```
 
 The backend will be available at `http://localhost:3000`.
 
-### Frontend Setup
+## Frontend Setup
 
-1. Navigate to the frontend directory:
+1. Navigate to frontend directory:
    ```bash
    cd frontend
    ```
@@ -128,65 +112,54 @@ The backend will be available at `http://localhost:3000`.
    npm install
    ```
 
-3. Start the development server:
+3. Start development server:
    ```bash
    npm run dev
    ```
 
 The frontend will be available at `http://localhost:5173`.
 
+## Testing Notes
 
+### Backend Testing
+- Uses Jest for unit and integration tests
+- Test database is automatically created
+- Run tests with:
+  ```bash
+  cd backend
+  npm test
+  ```
 
+### Frontend Testing
+- Uses Jest and React Testing Library
+- Run tests with:
+  ```bash
+  cd frontend
+  npm test
+  ```
 
+### Manual Testing
+- Use curl commands for API testing:
+  ```bash
+  # Register
+  curl -X POST http://localhost:3000/auth/register -H "Content-Type: application/json" -d "{\"username\":\"testuser\",\"password\":\"password123\"}"
 
+  # Login
+  curl -X POST http://localhost:3000/auth/login -H "Content-Type: application/json" -d "{\"username\":\"testuser\",\"password\":\"password123\"}"
+  ```
+
+## Security Features
+
+- Password hashing with bcrypt
+- JWT token authentication
+- Protected API endpoints
+- Input validation
+- Error handling
+- CORS configuration
 
 ## API Documentation
 
 See [API.md](./API.md) for detailed API documentation.
-
-## Security Features
-
-- JWT token authentication
-- Password hashing with bcrypt
-- Protected API endpoints
-- Input validation and sanitization
-- Error handling and logging
-- CORS configuration
-- Rate limiting
-
-## Deployment
-
-1. Build the frontend:
-   ```bash
-   cd frontend
-   npm run build
-   ```
-
-2. Build the backend:
-   ```bash
-   cd backend
-   npm run build
-   ```
-
-3. Start the production server:
-   ```bash
-   cd backend
-   npm start
-   ```
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Contact
-
-Ahmed Mohamed - hussah01@luther.edu
-
-Project Link: [https://github.com/ahmed5145/lumaa-spring-2025-swe](https://github.com/ahmed5145/lumaa-spring-2025-swe)
 
 ## Salary Expectations
 

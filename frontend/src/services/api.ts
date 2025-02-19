@@ -26,6 +26,29 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Add response interceptor for error handling
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      // Handle specific error cases
+      switch (error.response.status) {
+        case 401:
+          localStorage.removeItem('token'); // Clear invalid token
+          window.location.href = '/login'; // Redirect to login
+          break;
+        case 403:
+          // Handle forbidden access
+          break;
+        case 404:
+          // Handle not found
+          break;
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 /**
  * Authentication related API calls
  */

@@ -77,7 +77,8 @@ const Register = () => {
       });
       setTimeout(() => navigate('/tasks'), 2000);
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Registration failed. Please try again.';
+      const errorMessage = err.response?.data?.message || 'Registration failed';
+      setUsernameError(errorMessage);
       enqueueSnackbar(errorMessage, { variant: 'error' });
     } finally {
       setLoading(false);
@@ -110,6 +111,11 @@ const Register = () => {
             Join us to manage your tasks efficiently
           </Typography>
           <form onSubmit={handleSubmit}>
+            {(usernameError || passwordError || confirmPasswordError) && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {usernameError || passwordError || confirmPasswordError}
+              </Alert>
+            )}
             <TextField
               fullWidth
               label="Username"

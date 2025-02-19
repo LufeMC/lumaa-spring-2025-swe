@@ -10,6 +10,7 @@ import {
   Box,
   InputAdornment,
   IconButton,
+  Alert,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
@@ -66,7 +67,9 @@ const Login: React.FC = () => {
       });
       setTimeout(() => navigate('/tasks'), 1500);
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Login failed. Please check your credentials.';
+      const errorMessage = error.response?.data?.message || 'Invalid credentials';
+      setUsernameError(errorMessage);
+      setPasswordError(errorMessage);
       enqueueSnackbar(errorMessage, { variant: 'error' });
     } finally {
       setLoading(false);
@@ -101,6 +104,11 @@ const Login: React.FC = () => {
             Sign in to manage your tasks
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            {(usernameError || passwordError) && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {usernameError || passwordError}
+              </Alert>
+            )}
             <TextField
               margin="normal"
               required

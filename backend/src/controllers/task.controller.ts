@@ -42,11 +42,16 @@ export const updateTask = async (req: AuthRequest, res: Response) => {
     const { title, description, isComplete } = req.body;
 
     const task = await taskRepository.findOne({
-      where: { id: parseInt(id), userId: req.user!.id }
+      where: { id: parseInt(id) }
     });
 
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
+    }
+
+    // Check if the task belongs to the authenticated user
+    if (task.userId !== req.user!.id) {
+      return res.status(403).json({ message: 'You do not have permission to modify this task' });
     }
 
     task.title = title ?? task.title;
@@ -65,11 +70,16 @@ export const deleteTask = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
     const task = await taskRepository.findOne({
-      where: { id: parseInt(id), userId: req.user!.id }
+      where: { id: parseInt(id) }
     });
 
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
+    }
+
+    // Check if the task belongs to the authenticated user
+    if (task.userId !== req.user!.id) {
+      return res.status(403).json({ message: 'You do not have permission to delete this task' });
     }
 
     await taskRepository.remove(task);

@@ -5,6 +5,10 @@ import { Task } from '../models/Task';
 
 dotenv.config();
 
+if (!process.env.DB_HOST || !process.env.DB_USERNAME || !process.env.DB_PASSWORD || !process.env.DB_NAME) {
+  throw new Error('Database configuration environment variables are missing');
+}
+
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -13,7 +17,7 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   synchronize: true,
-  logging: true,
+  logging: process.env.NODE_ENV === 'development',
   entities: [User, Task],
   migrations: [],
   subscribers: [],

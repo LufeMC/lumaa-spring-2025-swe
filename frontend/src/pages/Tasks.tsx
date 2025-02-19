@@ -53,6 +53,7 @@ const Tasks = () => {
   const [sortBy, setSortBy] = useState<'id' | 'title' | 'status'>('id');
   const [filter, setFilter] = useState<'all' | 'complete' | 'incomplete'>('all');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [loadingTaskId, setLoadingTaskId] = useState<number | null>(null);
 
   useEffect(() => {
     loadTasks();
@@ -115,8 +116,7 @@ const Tasks = () => {
     try {
       setLoading(true);
       if (editingTask) {
-        await tasks.update(editingTask.id, { title, description });
-        enqueueSnackbar('Task updated successfully', { variant: 'success' });
+        await handleUpdateTask(editingTask.id);
       } else {
         await tasks.create({ title, description, isComplete: false });
         enqueueSnackbar('Task created successfully', { variant: 'success' });
@@ -132,16 +132,35 @@ const Tasks = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleUpdateTask = async (taskId: number) => {
     try {
-      setLoading(true);
-      await tasks.delete(id);
+      setLoadingTaskId(taskId);
+      await tasks.update(taskId, { title, description });
+      enqueueSnackbar('Task updated successfully', { variant: 'success' });
+      await loadTasks();
+    } catch (error: any) {
+      const errorMessage = error.response?.status === 404 
+        ? 'Task not found. It may have been deleted.'
+        : 'Failed to update task. Please try again.';
+      enqueueSnackbar(errorMessage, { variant: 'error' });
+    } finally {
+      setLoadingTaskId(null);
+    }
+  };
+
+  const handleDeleteTask = async (taskId: number) => {
+    try {
+      setLoadingTaskId(taskId);
+      await tasks.delete(taskId);
       enqueueSnackbar('Task deleted successfully', { variant: 'success' });
       await loadTasks();
-    } catch (error) {
-      enqueueSnackbar('Failed to delete task. Please try again.', { variant: 'error' });
+    } catch (error: any) {
+      const errorMessage = error.response?.status === 404 
+        ? 'Task not found. It may have been deleted.'
+        : 'Failed to delete task. Please try again.';
+      enqueueSnackbar(errorMessage, { variant: 'error' });
     } finally {
-      setLoading(false);
+      setLoadingTaskId(null);
     }
   };
 
@@ -359,7 +378,7 @@ const Tasks = () => {
                   <Tooltip title="Delete task">
                     <IconButton
                       edge="end"
-                      onClick={() => handleDelete(task.id)}
+                      onClick={() => handleDeleteTask(task.id)}
                       disabled={loading}
                     >
                       <DeleteIcon />
