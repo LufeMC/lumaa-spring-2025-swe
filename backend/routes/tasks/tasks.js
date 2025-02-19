@@ -24,4 +24,23 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
+router.post('/createTask', authMiddleware, async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    const userId = req.user.userId;
+
+    const task = await Task.create({
+      title,
+      description,
+      userId,
+      isComplete: false
+    });
+
+    res.status(201).json(task);
+  } catch (error) {
+    console.error('Error creating task:', error);
+    res.status(500).json({ error: 'Failed to create task' });
+  }
+});
+
 module.exports = router;
