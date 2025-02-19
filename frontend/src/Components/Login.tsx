@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -26,10 +28,19 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token);
   
       console.log('Login successful, token:', token);
+<<<<<<< Updated upstream
       // redirect to user dashboard
+=======
+      navigate('/dashboard');
+      // redirect to user dashboard below 
+>>>>>>> Stashed changes
     } catch (error) {
-      console.error('Login error:', error);
       // handle error
+      console.error('Login error:', error);
+<<<<<<< Updated upstream
+      // handle error
+=======
+>>>>>>> Stashed changes
     }
   };
   

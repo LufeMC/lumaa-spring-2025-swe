@@ -17,7 +17,7 @@ const Register: React.FC = () => {
   
     try {
       // check if username exists
-      const checkResponse = await fetch(`http://localhost:3001/api/register/checkUser?username=` + username);
+      const checkResponse = await fetch(`http://localhost:3001/api/auth/register/checkUser?username=` + username);
       const checkData = await checkResponse.json();
       
       console.log(checkData);
@@ -27,7 +27,7 @@ const Register: React.FC = () => {
       }
   
       // if username is available, create the user 
-      const registerResponse = await fetch('http://localhost:3001/api/register/register', {
+      const registerResponse = await fetch('http://localhost:3001/api/auth/register/createUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
