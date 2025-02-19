@@ -71,4 +71,10 @@ DB_NAME=your_db_name
 DB_PASSWORD=your_db_password
 DB_PORT=5432
 JWT_SECRET=your_jwt_secret
+```
+## Other
+
+Salary Expectations: 7k/Month as Full Time dev.
+
+Link to Demo: [https://drive.google.com/file/d/1KaEkeLb1BX8oerysveZFRu21ceEnXav9/view?usp=drive_link](https://drive.google.com/file/d/1KaEkeLb1BX8oerysveZFRu21ceEnXav9/view?usp=drive_link)
 
