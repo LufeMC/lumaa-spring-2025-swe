@@ -7,7 +7,7 @@ const authMiddleware = require('../../authMiddleware')
 router.get('/', authMiddleware, async (req, res) => {
   //console.log(req);
   const userId = req.user.userId
-  //console.log("userId to check", userId)
+  console.log("userId to check", userId)
   try {
     const tasks = await Task.findAll({
       where: { user_id : userId }
@@ -73,5 +73,30 @@ router.put('/:id', authMiddleware, async (req, res) => {
   }
 });
 
+router.delete('/delete/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.userId;
+
+    // Delete only if task belongs to requesting user
+    const deletedCount = await Task.destroy({
+      where: {
+        id,
+        userId
+      }
+    });
+
+
+    if (deletedCount === 0) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+
+    console.log("task deleted");
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    res.status(500).json({ error: 'Failed to delete task' });
+  }
+});
 
 module.exports = router;
