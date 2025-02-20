@@ -156,5 +156,3 @@ CREATE TABLE tasks (
       npm cache clean --force && npm start
       ```
 
----
-Answer from Perplexity: pplx.ai/share
