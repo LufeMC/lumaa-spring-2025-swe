@@ -11,7 +11,6 @@ router.get('/', authMiddleware, async (req, res) => {
   try {
     const tasks = await Task.findAll({
       where: { user_id : userId }
-      //attributes: ['id', 'title', 'description', 'isComplete']
     });
     if (tasks.length === 0) {
       return res.status(404).json({ message: 'No tasks found' });
@@ -78,7 +77,7 @@ router.delete('/delete/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const userId = req.user.userId;
 
-    // Delete only if task belongs to requesting user
+    // make sure the task belongs to the user 
     const deletedCount = await Task.destroy({
       where: {
         id,
