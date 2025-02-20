@@ -1,0 +1,100 @@
+.navbar {
+  background-color: #20232a;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.tab {
+  color: #61dafb;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.tab.active {
+  color: #4caf50;
+}
+
+.logout {
+  margin-left: auto;
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.form-container {
+  width: 400px;
+  margin: 30px auto;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-container h2 {
+  margin-bottom: 15px;
+}
+
+.task-form input, .task-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.task-form button {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.task-list-container {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-item.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.task-buttons button {
+  margin-left: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.task-buttons .edit {
+  background-color: #3498db;
+  color: white;
+}
+
+.task-buttons .delete {
+  background-color: #e74c3c;
+  color: white;
+}
