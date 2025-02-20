@@ -116,4 +116,3 @@ This challenge is intended to be completed within ~3 hours, so keep solutions mi
    - Organized logic (controllers/services, etc.)
    - Minimal hard-coded values
 
-Good luck, and we look forward to your submission!
