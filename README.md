@@ -142,26 +142,7 @@ python recommend.py
 
 ---
 
-## 🌐 Deployment Instructions
 
-### 1. **Frontend (Vercel/Netlify)**
-
-- Push code to GitHub.
-- Connect repository to Vercel.
-- Set environment variables for API URLs.
-
-### 2. **Backend (Render/Railway)**
-
-- Deploy via Render with automatic GitHub integration.
-- Add environment variables in the Render dashboard.
-
-### 3. **Database (Railway/Supabase)**
-
-- Host PostgreSQL database and update `DATABASE_URL` in `.env`.
-
-### 4. **Machine Learning Model (Optional)**
-
-- Deploy Python model via Railway or AWS Lambda for serverless predictions.
 
 ---
 
