@@ -69,7 +69,7 @@ CREATE TABLE tasks (
 1. Open a terminal on your local machine.
 2. Clone this repository:
    ```bash
-   git clone https://github.com//.git
+   git clone https://github.com/v2ganesan/lumaa-spring-2025-swe.git
    ```
 3. Navigate into the project directory:
    ```bash
