@@ -6,6 +6,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -28,20 +29,13 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token);
   
       console.log('Login successful, token:', token);
-<<<<<<< Updated upstream
       // redirect to user dashboard
-=======
+
       navigate('/dashboard');
-      // redirect to user dashboard below 
->>>>>>> Stashed changes
     } catch (error) {
       // handle error
       console.error('Login error:', error);
-<<<<<<< Updated upstream
-      // handle error
-=======
->>>>>>> Stashed changes
-    }
+      }
   };
   
   return (
