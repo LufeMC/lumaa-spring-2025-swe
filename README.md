@@ -1,6 +1,6 @@
 # Task Management App
 
-A full-stack task management application built with a React frontend, Node.js/Express backend, and PostgreSQL database.
+A full-stack task management application built with a React/Typescript frontend, Node.js/Express backend, and PostgreSQL database.
 
 ---
 
@@ -141,7 +141,7 @@ CREATE TABLE tasks (
     - Verify that your `DATABASE_URL` in `.env` matches your database credentials.
 
 2. **Port Already in Use**:
-    - Change ports in `.env` or React's `package.json`.
+    - Change ports in `package.json`.
 
 3. **Missing Dependencies**:
     - Run `npm install` in both `backend` and `frontend` directories.
@@ -151,8 +151,8 @@ CREATE TABLE tasks (
     - If expired, log out and log back in.
 
 5. **React Build Issues**:
-    - If you encounter issues while running React, try clearing its cache:
+    - If you encounter issues while running React, try clearing the cache:
       ```bash
       npm cache clean --force && npm start
       ```
-
+Salary Expectations - $25-30/hr / $2250 - $2700 per Month
