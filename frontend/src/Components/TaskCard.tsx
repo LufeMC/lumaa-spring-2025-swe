@@ -19,7 +19,7 @@ const TaskCard: React.FC<{
   const [updatedDescription, setUpdatedDescription] = useState(task.description || '');
   const [isChecked, setIsChecked] = useState(task.isComplete);
 
-  // Sync form fields and checkbox state with task data
+  // sync form fields with task data 
   useEffect(() => {
     setUpdatedTitle(task.title);
     setUpdatedDescription(task.description || '');
@@ -44,7 +44,7 @@ const TaskCard: React.FC<{
 
       if (!response.ok) throw new Error('Failed to update task');
 
-      // Update local state directly
+      // update state directly
       setTasks(prev =>
         prev.map(t =>
           t.id === task.id
@@ -60,7 +60,7 @@ const TaskCard: React.FC<{
 
   const handleDelete = async () => {
     try {
-      // Optimistically update state
+      // update state
       setTasks(prev => prev.filter(t => t.id !== task.id));
 
       const response = await fetch(`http://localhost:3001/api/tasks/delete/${task.id}`, {
@@ -71,7 +71,7 @@ const TaskCard: React.FC<{
       });
 
       if (!response.ok) {
-        // Rollback if delete fails
+        // fallback if delete fails
         setTasks(prev => [...prev, task]);
         throw new Error('Failed to delete task');
       }
@@ -83,7 +83,7 @@ const TaskCard: React.FC<{
   const handleCheckboxChange = async () => {
     try {
       const updatedTask = { ...task, isComplete: !isChecked };
-      setIsChecked(!isChecked); // Optimistic UI update
+      setIsChecked(!isChecked); // update state
 
       // Update backend
       const response = await fetch(`http://localhost:3001/api/tasks/${task.id}`, {
@@ -97,13 +97,13 @@ const TaskCard: React.FC<{
 
       if (!response.ok) throw new Error('Failed to update task');
 
-      // Update state with new isComplete value
+     
       setTasks(prev =>
         prev.map(t => (t.id === task.id ? updatedTask : t))
       );
     } catch (error) {
       console.error('Error updating task completion status:', error);
-      setIsChecked(isChecked); // Rollback UI if error occurs
+      setIsChecked(isChecked); 
     }
   };
 
