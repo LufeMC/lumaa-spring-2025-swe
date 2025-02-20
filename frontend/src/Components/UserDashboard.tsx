@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
-import '../styling/dashboard.css'
-import TaskCard from '../Components/TaskCard'
+import '../styling/dashboard.css';
+import TaskCard from '../Components/TaskCard';
 
 interface Task {
   id: number;
   title: string;
-  description?: string; 
+  description?: string;
   isComplete: boolean;
   created_at: string;
 }
 
 const TaskDashboard = () => {
-  const [tasks, setTasks] = useState<Task[]>([]); 
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -21,27 +20,32 @@ const TaskDashboard = () => {
 
   const navigate = useNavigate();
 
-  // check if the token is expired
+  // Check if the token is expired
   const isTokenExpired = (token: string | null): boolean => {
-    if (!token) return true; // check for no token 
+    if (!token) return true;
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1])); 
-      const currentTime = Math.floor(Date.now() / 1000); 
-      return payload.exp < currentTime; // check if current time is after expriation time
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      return payload.exp < currentTime;
     } catch (error) {
       console.error('Error decoding token:', error);
-      return true; // 
+      return true;
     }
+  };
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear token from localStorage
+    navigate('/'); // Redirect to home page
   };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (isTokenExpired(token)) {
-      navigate('/'); // go back to homepage 
+      handleLogout(); // Log out if token is expired
     }
   }, [navigate]);
-
 
   const fetchTasks = useCallback(async () => {
     try {
@@ -51,7 +55,7 @@ const TaskDashboard = () => {
         },
       });
       if (!response.ok) throw new Error('Failed to fetch tasks');
-      
+
       const data: Task[] = await response.json();
       setTasks(data);
     } catch (error) {
@@ -59,11 +63,11 @@ const TaskDashboard = () => {
     } finally {
       setLoading(false);
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     fetchTasks();
-  }, [fetchTasks]); // Now properly included in dependencies
+  }, [fetchTasks]);
 
   const handleAddTask = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,6 +99,9 @@ const TaskDashboard = () => {
     <div className="dashboard">
       <div className="dashboard-header">
         <h2>Your Tasks</h2>
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
         <button
           className="add-task-button"
           onClick={() => setShowAddForm(!showAddForm)}
@@ -109,13 +116,13 @@ const TaskDashboard = () => {
             type="text"
             placeholder="Task Title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)} 
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
           <textarea
             placeholder="Task Description"
             value={description}
-            onChange={(e) => setDescription(e.target.value)} 
+            onChange={(e) => setDescription(e.target.value)}
           />
           <div className="form-buttons">
             <button type="submit">Add Task</button>
@@ -127,8 +134,8 @@ const TaskDashboard = () => {
       </div>
 
       <div className="tasks-list">
-        {tasks.map(task => (
-          <TaskCard key={task.id} task={task} setTasks={setTasks}/>
+        {tasks.map((task) => (
+          <TaskCard key={task.id} task={task} setTasks={setTasks} />
         ))}
       </div>
     </div>
