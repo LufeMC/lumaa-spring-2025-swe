@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 import '../styling/dashboard.css'
 import TaskCard from '../Components/TaskCard'
 
@@ -41,25 +42,28 @@ const TaskDashboard = () => {
     }
   }, [navigate]);
 
+
+  const fetchTasks = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/tasks/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (!response.ok) throw new Error('Failed to fetch tasks');
+      
+      const data: Task[] = await response.json();
+      setTasks(data);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []); 
+
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/api/tasks/', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (!response.ok) throw new Error('Failed to fetch tasks');
-        const data: Task[] = await response.json();
-        setTasks(data);
-      } catch (error) {
-        console.error('Error fetching tasks:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchTasks();
-  }, []);
+  }, [fetchTasks]); // Now properly included in dependencies
 
   const handleAddTask = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,7 +80,7 @@ const TaskDashboard = () => {
       if (!response.ok) throw new Error('Failed to create task');
 
       const newTask: Task = await response.json();
-      setTasks([...tasks, newTask]);
+      setTasks([newTask, ...tasks]);
       setTitle('');
       setDescription('');
       setShowAddForm(false);
@@ -124,7 +128,7 @@ const TaskDashboard = () => {
 
       <div className="tasks-list">
         {tasks.map(task => (
-          <TaskCard task={task} />
+          <TaskCard key={task.id} task={task} setTasks={setTasks}/>
         ))}
       </div>
     </div>
