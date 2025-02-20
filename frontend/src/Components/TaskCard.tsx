@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import '../styling/taskCard.css';
 
 interface Task {
   id: number;
@@ -10,11 +11,20 @@ interface Task {
 
 const TaskCard: React.FC<{ 
   task: Task;
-  fetchTasks: () => void 
-}> = ({ task, fetchTasks }) => {
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+}> = ({ task, setTasks }) => {
+  const [showMenu, setShowMenu] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(task.title);
   const [updatedDescription, setUpdatedDescription] = useState(task.description || '');
+  const [isChecked, setIsChecked] = useState(task.isComplete);
+
+  // Sync form fields and checkbox state with task data
+  useEffect(() => {
+    setUpdatedTitle(task.title);
+    setUpdatedDescription(task.description || '');
+    setIsChecked(task.isComplete);
+  }, [task]);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,18 +35,75 @@ const TaskCard: React.FC<{
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           title: updatedTitle,
-          description: updatedDescription 
+          description: updatedDescription,
+          isComplete: task.isComplete,
         }),
       });
 
       if (!response.ok) throw new Error('Failed to update task');
-      
-      fetchTasks();
+
+      // Update local state directly
+      setTasks(prev =>
+        prev.map(t =>
+          t.id === task.id
+            ? { ...t, title: updatedTitle, description: updatedDescription }
+            : t
+        )
+      );
       setShowUpdateForm(false);
     } catch (error) {
       console.error('Error updating task:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      // Optimistically update state
+      setTasks(prev => prev.filter(t => t.id !== task.id));
+
+      const response = await fetch(`http://localhost:3001/api/tasks/delete/${task.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        // Rollback if delete fails
+        setTasks(prev => [...prev, task]);
+        throw new Error('Failed to delete task');
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  };
+
+  const handleCheckboxChange = async () => {
+    try {
+      const updatedTask = { ...task, isComplete: !isChecked };
+      setIsChecked(!isChecked); // Optimistic UI update
+
+      // Update backend
+      const response = await fetch(`http://localhost:3001/api/tasks/${task.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isComplete: !isChecked }),
+      });
+
+      if (!response.ok) throw new Error('Failed to update task');
+
+      // Update state with new isComplete value
+      setTasks(prev =>
+        prev.map(t => (t.id === task.id ? updatedTask : t))
+      );
+    } catch (error) {
+      console.error('Error updating task completion status:', error);
+      setIsChecked(isChecked); // Rollback UI if error occurs
     }
   };
 
@@ -44,12 +111,28 @@ const TaskCard: React.FC<{
     <div className="task-card">
       <div className="task-header">
         <h3>{task.title}</h3>
-        <button 
-          className="dropdown-button"
-          onClick={() => setShowUpdateForm(!showUpdateForm)}
-        >
-          {showUpdateForm ? '×' : 'Update'}
-        </button>
+        <div className="dropdown-container">
+          <button 
+            className="dropdown-toggle"
+            onClick={() => setShowMenu(!showMenu)}
+          >
+            •••
+          </button>
+          
+          {showMenu && (
+            <div className="dropdown-menu">
+              <button onClick={() => {
+                setShowMenu(false);
+                setShowUpdateForm(true);
+              }}>
+                Update
+              </button>
+              <button onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {showUpdateForm && (
@@ -77,10 +160,18 @@ const TaskCard: React.FC<{
         </div>
       )}
 
-      {task.description && <p>{task.description}</p>}
-      <div className="task-meta">
-        <span>Status: {task.isComplete ? 'Complete' : 'Incomplete'}</span>
-        <span>Created: {new Date(task.created_at).toLocaleDateString()}</span>
+      <div className="task-body">
+        {task.description && <p>{task.description}</p>}
+        <div className="task-meta">
+          <span>Created: {new Date(task.created_at).toLocaleDateString()}</span>
+          <label className="checkbox-container">
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
+          </label>
+        </div>
       </div>
     </div>
   );
