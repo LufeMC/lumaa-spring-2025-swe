@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎬 Movie Watchlist & Task Management with Movie Recommendation System
 
 ## 📖 Project Overview
@@ -197,5 +198,4 @@ Reach me at [spatne1@umbc.edu](mailto\:spatne1@umbc.edu) for queries or suggesti
 
 ---
 
-on.
 
