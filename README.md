@@ -5,6 +5,12 @@ Frontend: React + TypeScript
 Backend: Node.js + Express + PostgreSQL
 Authentication: JWT-based authentication
 Database: PostgreSQL
+
+# Youtube Link:
+``` 
+https://youtu.be/DE4jGuOWgCA
+``` 
+
 # 🚀 Features
 ✅ User Registration & Login
 ✅ Secure JWT Authentication
@@ -13,10 +19,7 @@ Database: PostgreSQL
 ✅ Fully Responsive UI with React + TypeScript
 
 
-# Youtube Link:
-``` 
-https://youtu.be/DE4jGuOWgCA
-``` 
+
 
 
 
