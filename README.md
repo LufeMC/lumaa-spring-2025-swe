@@ -8,6 +8,7 @@ This is a **full-stack** Task Management application built using **React + TypeS
   Your browser does not support the video tag.  
   [Click here to watch](https://raw.githubusercontent.com/turisouvenir/lumaa-spring-2025-swe/main/client/public/demo-video.mp4)
 </video>
+
 ## Features
 ✔️ User Authentication (Register, Login)  
 ✔️ Task CRUD (Create, Read, Update, Delete)  
