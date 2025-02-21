@@ -6,6 +6,9 @@ const Tasks = () => {
   const [tasks, setTasks] = useState<{ id: string; title: string; description: string; isComplete: boolean }[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [editingTask, setEditingTask] = useState<string | null>(null); // Stores task ID being edited
+  const [editedTitle, setEditedTitle] = useState("");
+  const [editedDescription, setEditedDescription] = useState("");
   const token = localStorage.getItem("token") || "";
   const navigate = useNavigate();
 
@@ -38,6 +41,18 @@ const Tasks = () => {
 
   const handleDeleteTask = async (id: string) => {
     await deleteTask(token, id);
+    fetchTasks();
+  };
+
+  const handleEditClick = (task: { id: string; title: string; description: string }) => {
+    setEditingTask(task.id);
+    setEditedTitle(task.title);
+    setEditedDescription(task.description || "");
+  };
+
+  const handleSaveEdit = async (id: string) => {
+    await updateTask(token, id, { title: editedTitle, description: editedDescription });
+    setEditingTask(null);
     fetchTasks();
   };
 
@@ -78,12 +93,34 @@ const Tasks = () => {
           </button>
         </form>
 
-        {/* Updated Task List with Larger Icons & Tooltips */}
+        {/* Task List with Edit Option */}
         <ul className="mt-4 space-y-3">
           {tasks.map(task => (
             <li key={task.id} className="border-b p-3 flex justify-between items-center">
-              <span className={task.isComplete ? "line-through text-gray-500" : ""}>{task.title}</span>
-              <div className="flex gap-4">
+              
+              {/* If Editing, Show Input Fields */}
+              {editingTask === task.id ? (
+                <div className="flex flex-col gap-2">
+                  <input
+                    type="text"
+                    className="p-2 border rounded-md"
+                    value={editedTitle}
+                    onChange={(e) => setEditedTitle(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    className="p-2 border rounded-md"
+                    value={editedDescription}
+                    onChange={(e) => setEditedDescription(e.target.value)}
+                  />
+                </div>
+              ) : (
+                <span className={task.isComplete ? "line-through text-gray-500" : ""}>
+                  {task.title} - {task.description}
+                </span>
+              )}
+
+              <div className="flex gap-3">
                 
                 {/* Task Complete/Undo Button */}
                 <button
@@ -93,6 +130,25 @@ const Tasks = () => {
                 >
                   {task.isComplete ? "↩" : "✔"}
                 </button>
+
+                {/* Edit Button (📝) */}
+                {editingTask === task.id ? (
+                  <button
+                    onClick={() => handleSaveEdit(task.id)}
+                    className="text-blue-500 text-2xl hover:text-blue-700 transition"
+                    title="Save Changes"
+                  >
+                    💾
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleEditClick(task)}
+                    className="text-yellow-500 text-2xl hover:text-yellow-700 transition"
+                    title="Edit Task"
+                  >
+                    📝
+                  </button>
+                )}
 
                 {/* Delete Task Button */}
                 <button

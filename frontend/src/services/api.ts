@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3001"; // Backend URL
+const API_URL = "http://localhost:3000"; // Backend URL
 
 export const register = (username: string, password: string) =>
   axios.post(`${API_URL}/auth/register`, { username, password });
