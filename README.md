@@ -106,7 +106,7 @@ CREATE TABLE tasks (
    ```bash
    npm run server
    ```
-5. The backend will now run on `http://localhost:3001`.
+5. The backend will now run on `http://localhost:PORT`. If you decided not to specify a port in your .env file, it will run on `http://localhost:3001`.
 
 ---
 
