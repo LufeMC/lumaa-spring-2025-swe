@@ -1,0 +1,45 @@
+### Register a new user
+POST http://localhost:3001/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+### Login
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+### Get all tasks (requires auth token)
+GET http://localhost:3001/tasks
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Create a new task
+POST http://localhost:3001/tasks
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "title": "Test Task",
+  "description": "This is a test task",
+  "isComplete": false
+}
+
+### Update a task
+PUT http://localhost:3001/tasks/1
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "isComplete": true
+}
+
+### Delete a task
+DELETE http://localhost:3001/tasks/1
+Authorization: Bearer YOUR_TOKEN_HERE 
