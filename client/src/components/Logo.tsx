@@ -2,7 +2,7 @@ import React from 'react';
 
 const Logo = () => {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 select-none">
       <img
         src="/lumaa-indigo.svg"
         alt="Lumaa Logo"
