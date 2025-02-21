@@ -21,6 +21,7 @@
     "zustand": "^5.0.3"
   },
   "scripts": {
+    "dev": "PORT=5051 react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
