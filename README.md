@@ -11,6 +11,11 @@ A **full-stack** Task Management application built with **React (TypeScript)**, 
 
 ---
 
+## Youtube Link: 
+https://youtu.be/VfAM0_q8b7c
+
+---
+
 ## **Tech Stack**
 - **Frontend:** React + TypeScript + Tailwind CSS
 - **Backend:** Node.js + Express + PostgreSQL
@@ -27,39 +32,32 @@ task-manager/
 
 ---
 
-# Setup Guide
+## Setup Guide
 
 ---
 
-## **Database Setup (Migrations & Environment Variables)**
-### **Install PostgreSQL & Create Database**
+### **Database Setup (Migrations & Environment Variables)**
+#### **Install PostgreSQL & Create Database**
 1. Ensure **PostgreSQL** is installed and running.
-2. Create a database named `task_manager`:
-   ```sh
-   createdb task_manager
-   ```
+2. Create a PostgreSQL database and user:
+```bash
+psql postgres
+CREATE DATABASE task_manager;
+CREATE USER task_user WITH PASSWORD 'sushmit99';
+GRANT ALL PRIVILEGES ON DATABASE task_manager TO task_user;
+```
 3. Configure environment variables
    - Generate a JWT token using the command for configuring the .env file below:
-   ```sh
-   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-   ```
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
    - Create a .env file in the backend directory with the following content:
-   ```sh
-   DATABASE_URL=postgres://your_db_user:your_db_password@localhost:5432/task_manager
-   JWT_SECRET=your_secret_key
-   ```
-4. Run Database Migrations (Auto-Create Tables)
-   ```sh
-   cd backend
-   npx sequelize-cli db:migrate
-   ```
-5. How to Reset the Database
-   ```sh
-   dropdb task_manager && createdb task_manager
-   npx sequelize-cli db:migrate
-   ```
+```bash
+DATABASE_URL=postgres://your_db_user:your_db_password@localhost:5432/task_manager
+JWT_SECRET=your_secret_key
+```
 
-## **How to run the Backend**
+### **How to run the Backend**
 1. Install Dependencies
 ```sh 
 cd backend
@@ -70,7 +68,7 @@ npm install
 npm start
 ```
 
-## **How to run the Frontend**
+### **How to run the Frontend**
 1. Install Dependencies
 ```sh 
 cd frontend
