@@ -1,0 +1,11 @@
+# Ignore node modules
+node_modules/
+package-lock.json
+
+# Ignore system files
+.DS_Store
+*.log
+.vscode/
+.idea/
+*.env
+

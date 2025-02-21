@@ -1,0 +1,146 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #1e1e2f; /* Dark mode background */
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/*  Centered Container */
+.container {
+    width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: black;
+}
+
+/* Login & Register Form */
+.form-container {
+    background: #25293a;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+    color: white; 
+}
+
+
+.form-container h2, 
+.form-container p, 
+.form-container a {
+    color: white !important; 
+}
+
+/*Input Fields */
+.form-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background: #2d3349;
+    color: white;
+}
+
+/* Submit Button */
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background: #4a90e2;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background: #357ab8;
+}
+
+
+.form-container a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
+
+/* 📝 Task List */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #e0e0e0;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+li span {
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+li button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+li button:nth-child(2) {
+    background: #4a90e2;
+    color: white;
+}
+
+li button:nth-child(2):hover {
+    background: #357ab8;
+}
+
+
+li button:nth-child(3) {
+    background: red;
+    color: white;
+}
+
+li button:nth-child(3):hover {
+    background: darkred;
+}
+
+
+.logout-button {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+    margin-bottom: 10px;
+}
+
+.logout-button:hover {
+    background: #cc0000;
+}
