@@ -33,7 +33,25 @@ cd lumaa-spring-2025-swe
 ```
 
 ### 2. Database Setup
-1. Install PostgreSQL if you haven't already: [PostgreSQL Downloads](https://www.postgresql.org/download/).
+1. Install PostgreSQL if you haven't already: [PostgreSQL Downloads](https://www.postgresql.org/download/):
+    - For **Windows**:
+     - During installation, make sure to:
+       - Check the box to **Add PostgreSQL to the system PATH**.
+       - Note down the **port number** (default is `5432`) and the **password** you set for the `postgres` superuser.
+   - For **macOS**:
+     - Add PostgreSQL to your PATH by adding the following line to your shell configuration file (e.g., `.bashrc`, `.zshrc`):
+       ```
+       export PATH="/usr/local/opt/postgresql/bin:$PATH"
+       ```
+     - Reload your shell configuration:
+       ```
+       source ~/.zshrc  # or source ~/.bashrc
+       ```
+    - Alternatively, install postgreSQL using Homebrew:
+       ```
+       brew install postgresql
+       ```
+
 2. Create a database in your terminal:
 ```
 psql -U postgres
@@ -76,15 +94,16 @@ GRANT USAGE, SELECT ON SEQUENCE users_id_seq TO myuser;
 
 ### 3. Backend Setup:
 1. Install PostgreSQL if you haven't already: [Node Downloads](https://node.js.org/en).
-2. Navigate to the backend:
+2. Add the batch file to your path
+3. Navigate to the backend:
 ```
 cd backend
 ```
-3. Install dependencies:
+4. Install dependencies:
 ```
 npm install
 ```
-4. Create a `.env` file in the `backend` folder and add:
+5. Create a `.env` file in the `backend` folder and add:
 ```
 PORT=8000
 DB_HOST=localhost
