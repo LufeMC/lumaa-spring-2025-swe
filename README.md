@@ -20,7 +20,7 @@ This is a full-stack task management application built with:
 
 ## Setup Instructions
 
-## 1. Clone the Repository
+### 1. Clone the Repository
 1. Create a directory
 2. Navigate to the directory
 3. Open a terminal and run the following command to clone the repository:
@@ -29,10 +29,10 @@ git clone https://github.com/your-username/task-management-app.git
 ```
 4. Navigate to the cloned file:
 ```
-    cd lumaa-spring-2025-swe
+cd lumaa-spring-2025-swe
 ```
 
-### 1. Database Setup
+### 2. Database Setup
 1. Install PostgreSQL if you haven't already: [PostgreSQL Downloads](https://www.postgresql.org/download/).
 2. Create a database in your terminal:
 ```
@@ -74,7 +74,7 @@ GRANT ALL PRIVILEGES ON TABLE users TO myuser;
 GRANT USAGE, SELECT ON SEQUENCE users_id_seq TO myuser;
 ```
 
-### 2. Backend Setup:
+### 3. Backend Setup:
 1. Navigate to the backend:
 ```
 cd backend
@@ -97,7 +97,7 @@ JWT_SECRET=your_jwt_secret_key
 npm run dev
 ```
 
-## 3. Frontend Setup
+### 4. Frontend Setup
 
 1. Navigate to the `frontend` folder:
 ```
