@@ -75,15 +75,16 @@ GRANT USAGE, SELECT ON SEQUENCE users_id_seq TO myuser;
 ```
 
 ### 3. Backend Setup:
-1. Navigate to the backend:
+1. Install PostgreSQL if you haven't already: [Node Downloads](https://node.js.org/en).
+2. Navigate to the backend:
 ```
 cd backend
 ```
-2. Install dependencies:
+3. Install dependencies:
 ```
 npm install
 ```
-3.  Create a `.env` file in the `backend` folder and add:
+4. Create a `.env` file in the `backend` folder and add:
 ```
 PORT=8000
 DB_HOST=localhost
@@ -122,7 +123,7 @@ npm start
 cd backend
 npm run dev
 ```
-2. Start the frontend server:
+2. Start the frontend server on another terminal:
 ```
 cd frontend
 npm start
