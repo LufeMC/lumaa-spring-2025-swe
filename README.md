@@ -99,7 +99,7 @@ CREATE TABLE tasks (
    PORT=YOUR_PORT
    
    ```
-   - Replace DB env variables with your PostgreSQL password.
+   - Replace DB env variables with your PostgreSQL information. 
    - Replace `your_jwt_secret_key` with a secure secret key for JWT authentication.
 
 4. Start the backend server:
