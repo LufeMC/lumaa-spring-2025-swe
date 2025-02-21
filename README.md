@@ -167,4 +167,4 @@ Monthly salary expectation: $2,000 - $4,000 USD
 
 ## Video Demo
 
-[Link to video demo will be added] 
+[View Project Demo Video](https://drive.google.com/file/d/13jT7Dnui-zX1pwJN82otXiONca7tPNjD/view?usp=sharing)
