@@ -1,15 +1,44 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
-const User = require("./User");
+"use strict";
+const { Model } = require("sequelize");
 
-const Task = sequelize.define("Task", {
-  id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-  title: { type: DataTypes.STRING, allowNull: false },
-  description: { type: DataTypes.STRING },
-  isComplete: { type: DataTypes.BOOLEAN, defaultValue: false },
-});
+module.exports = (sequelize, DataTypes) => {
+  class Task extends Model {
+    static associate(models) {
+      // Make sure 'models.User' is properly referenced
+      Task.belongsTo(models.User, { foreignKey: "userId", onDelete: "CASCADE" });
+    }
+  }
 
-Task.belongsTo(User, { foreignKey: "userId" });
-User.hasMany(Task, { foreignKey: "userId" });
+  Task.init(
+    {
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      isComplete: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Users", // This should match your Users table
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+    },
+    {
+      sequelize,
+      modelName: "Task",
+    }
+  );
 
-module.exports = Task;
+  return Task;
+};

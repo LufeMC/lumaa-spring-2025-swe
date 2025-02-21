@@ -1,10 +1,31 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
+"use strict";
+const { Model } = require("sequelize");
 
-const User = sequelize.define("User", {
-  id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-  username: { type: DataTypes.STRING, unique: true, allowNull: false },
-  password: { type: DataTypes.STRING, allowNull: false },
-});
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    static associate(models) {
+      // Make sure 'models.Task' is correctly referenced
+      User.hasMany(models.Task, { foreignKey: "userId", onDelete: "CASCADE" });
+    }
+  }
 
-module.exports = User;
+  User.init(
+    {
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
+
+  return User;
+};

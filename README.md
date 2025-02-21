@@ -21,12 +21,9 @@ A **full-stack** Task Management application built with **React (TypeScript)**, 
 
 ## **Project Structure**
 task-manager/ 
-
-│── backend/ # Node.js & Express API 
-
-│── frontend/ # React & TypeScript UI 
-
-│── README.md 
+   │── backend/ # Node.js & Express API 
+   │── frontend/ # React & TypeScript UI 
+   │── README.md 
 
 ---
 
@@ -95,3 +92,4 @@ The frontend will automatically connect to the backend at http://localhost:3000.
 
 ## **Salary Expectation (per month): $5000 (Summer 2025 Internship)**
 I am open for negotiation based on the role and responsibilities
+

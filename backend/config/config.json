@@ -14,7 +14,7 @@
     "dialect": "postgres"
   },
   "production": {
-    "use_env_variable": "postgres://task_user:sushmit99@localhost:5432/task_manager",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres"
   }
 }
