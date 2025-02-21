@@ -10,7 +10,7 @@ datasource db {
 model User {
   id        String  @id @default(uuid())
   username  String  @unique
-  password  String  @min(6)
+  password  String
   createdAt DateTime @default(now())
 
   // Relations
