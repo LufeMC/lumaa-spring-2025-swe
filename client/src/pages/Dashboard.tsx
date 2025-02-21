@@ -17,6 +17,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadTasks();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {
@@ -40,7 +41,7 @@ const Dashboard = () => {
   });
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Navbar */}
       <div className="flex justify-between items-center px-6 py-4 bg-white shadow-md">
         <Logo />

@@ -4,9 +4,9 @@ This is a **full-stack** Task Management application built using **React + TypeS
 
 ## Demo
 <video width="100%" controls>
-  <source src="https://raw.githubusercontent.com/turisouvenir/lumaa-spring-2025-swe/main/client/public/demo-video.mp4" type="video/mp4">
+  <source src="https://jmp.sh/srDVKCK7" type="video/mp4">
   Your browser does not support the video tag.  
-  [Click here to watch](https://raw.githubusercontent.com/turisouvenir/lumaa-spring-2025-swe/main/client/public/demo-video.mp4)
+  [Click here to watch](https://jmp.sh/srDVKCK7)
 </video>
 
 ## Features
@@ -99,6 +99,6 @@ Authorization: Bearer Token (JWT) required for all /tasks endpoints.
 - Ensure tasks update correctly in UI
 
 💰 Salary Expectations
-💵 Expected Monthly Salary: $X,XXX - $X,XXX USD
+💵 Expected Monthly Salary: $2,300 - $2,600 USD (Open to negotiation)
 
 Thank you and looking forward to working with you.
