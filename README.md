@@ -20,6 +20,8 @@ A full-stack task management application built with a React/Typescript frontend,
 - **Authentication**: JSON Web Tokens (JWT)
 
 ---
+## Testing Video 
+https://drive.google.com/file/d/1nIlkP2i5a9aM9-I5q_2MHGAkReHLFeLk/view?usp=sharing
 
 ## Setup Instructions
 
