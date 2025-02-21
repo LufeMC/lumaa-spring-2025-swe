@@ -20,17 +20,30 @@ This is a full-stack task management application built with:
 
 ## Setup Instructions
 
+## 1. Clone the Repository
+1. Create a directory
+2. Navigate to the directory
+3. Open a terminal and run the following command to clone the repository:
+```
+git clone https://github.com/your-username/task-management-app.git
+```
+4. Navigate to the cloned file:
+```
+    cd lumaa-spring-2025-swe
+```
+
 ### 1. Database Setup
 1. Install PostgreSQL if you haven't already: [PostgreSQL Downloads](https://www.postgresql.org/download/).
 2. Create a database in your terminal:
-   ```
-   psql -U postgres
-   CREATE DATABASE task_management;
-   ```
+```
+psql -U postgres
+CREATE DATABASE task_management;
+```
 3. create a new user and grant priviledges:
+```
 CREATE USER myuser WITH PASSWORD 'mypassword';
 GRANT ALL PRIVILEGES ON DATABASE task_management TO myuser;
-
+```
 4. Switch to `task_management` database:
 ```
 \c task_management
@@ -70,7 +83,7 @@ cd backend
 ```
 npm install
 ```
-3.  create a `.env` file in the `backend` folder and add:
+3.  Create a `.env` file in the `backend` folder and add:
 ```
 PORT=8000
 DB_HOST=localhost
@@ -92,9 +105,9 @@ cd frontend
 ```
 2. Install dependencies:
 ```
-cd frontend
+npm install
 ```
-3. Create `.env` file in the frontend and add:
+3. Create `.env` file in the `frontend` and add:
 ```
 REACT_APP_API_URL=http://localhost:8000
 ```
