@@ -3,8 +3,11 @@
 This is a **full-stack** Task Management application built using **React + TypeScript (frontend)**, **Node.js (backend)**, and **PostgreSQL (database)**.
 
 ## Demo
-<video width="100%" height="auto" controls> <source src="/client/public/demo-video.mp4" type="video/mp4"> Your browser does not support the video tag. </video>
-
+<video width="100%" controls>
+  <source src="https://raw.githubusercontent.com/turisouvenir/lumaa-spring-2025-swe/main/client/public/demo-video.mp4" type="video/mp4">
+  Your browser does not support the video tag.  
+  [Click here to watch](https://raw.githubusercontent.com/turisouvenir/lumaa-spring-2025-swe/main/client/public/demo-video.mp4)
+</video>
 ## Features
 ✔️ User Authentication (Register, Login)  
 ✔️ Task CRUD (Create, Read, Update, Delete)  
