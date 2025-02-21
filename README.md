@@ -21,9 +21,12 @@ A **full-stack** Task Management application built with **React (TypeScript)**, 
 
 ## **Project Structure**
 task-manager/ 
-- │── backend/ # Node.js & Express API 
-- │── frontend/ # React & TypeScript UI 
-- │── README.md 
+
+│── backend/ # Node.js & Express API 
+
+│── frontend/ # React & TypeScript UI 
+
+│── README.md 
 
 ---
 
@@ -39,18 +42,25 @@ task-manager/
    createdb task_manager
    ```
 3. Configure environment variables
-   - 3.1 Generate a JWT token using the command for configuring the .env file below: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-   - 3.2 Create a .env file in the backend directory with the following content:
+   - Generate a JWT token using the command for configuring the .env file below:
+   ```sh
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+   ```
+   - Create a .env file in the backend directory with the following content:
+   ```sh
    DATABASE_URL=postgres://your_db_user:your_db_password@localhost:5432/task_manager
    JWT_SECRET=your_secret_key
+   ```
 4. Run Database Migrations (Auto-Create Tables)
    ```sh
    cd backend
    npx sequelize-cli db:migrate
+   ```
 5. How to Reset the Database
    ```sh
    dropdb task_manager && createdb task_manager
    npx sequelize-cli db:migrate
+   ```
 
 ## **How to run the Backend**
 1. Install Dependencies
