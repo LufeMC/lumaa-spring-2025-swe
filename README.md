@@ -38,7 +38,10 @@ Once everything is running, you can:
 - Create, update, and delete tasks from the home page.
 
 ---
+## 🎥 Demo Video
+[Click here to watch the demo](https://drive.google.com/file/d/1TNxYP5HQbma9e4_q82PPIdIKH9x_8mnw/view?usp=sharing)
 
+---
 ## **💰 Salary Expectations**
 💵 **$25 - $30 per hour**  
 
