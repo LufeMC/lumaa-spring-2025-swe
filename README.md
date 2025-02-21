@@ -241,13 +241,8 @@ curl -X DELETE http://localhost:3000/api/v1/tasks/1 \
 ## Expectations
 > at least $2500 / month
 
-## Video
 
-Here’s how you can include the video demo link in a `.md` (Markdown) file. You can create a new file, for example, `video-demo.md`, and add the following content:
-
----
-
-# Video Demo
+## Video Demo
 
 A brief screen recording of the Task Management application is available below. The video demonstrates the following features:
 
