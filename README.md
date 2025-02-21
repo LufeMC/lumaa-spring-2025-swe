@@ -1,119 +1,100 @@
-# Full-Stack Coding Challenge
+# Task Management Application
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+This is a **full-stack** Task Management application built using **React + TypeScript (frontend)**, **Node.js (backend)**, and **PostgreSQL (database)**.
 
----
+## Demo
+[Click here to watch video demo](https://jmp.sh/srDVKCK7)
 
-## Overview
-
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
-
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
-
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
+## Features
+✔️ User Authentication (Register, Login)  
+✔️ Task CRUD (Create, Read, Update, Delete)  
+✔️ Secure Routes (JWT Auth)  
+✔️ Beautiful UI with **Tailwind CSS**  
+✔️ Smooth Animations with **Framer Motion**  
+✔️ Delete Confirmation Dialog  
+✔️ Edit Task Functionality  
 
 ---
 
-## Requirements
+## **Setup Instructions**
+### 1️⃣ **Backend Setup (Server)**
+#### **Prerequisites**
+- Node.js **18+**  
+- PostgreSQL **latest version**  
+#### **Clone the Repository**
+```bash
+git clone https://github.com/turisouvenir/lumaa-spring-2025-swe.git
+cd lumaa-spring-2025-swe/server
+```
 
-### 1. Authentication
+#### **Install Dependencies**
+```bash
+npm install
+```
 
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
+#### **Setup Environment Variables**
+Create a `.env` file in the server directory with the following content:
+```
+DATABASE_URL=postgresql://username:password@localhost:5432/lumaa_task_management
+JWT_SECRET=your-secret-key
+PORT=5050
+```
 
-### 2. Backend (Node.js or Nest.js)
+#### **Run Migrations**
+```bash
+npx prisma migrate dev --name init
+```
 
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
+#### **Start the Backend**
+```bash
+npm run dev
+```
+The server will run at [http://localhost:5050](http://localhost:5050/ping/)
 
-### 3. Frontend (React + TypeScript)
+### 2️⃣ **Frontend Setup (Client)**
+#### **Navigate to Client**
+```bash
+cd ../client
+```
 
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+#### **Install Dependencies**
+```bash
+npm install
+```
 
----
+#### **Start the Frontend**
+```bash
+npm run dev
+```
+The frontend will run at [http://localhost:5051](http://localhost:5051/)
 
-## Deliverables
+API Endpoints
+| Method | Endpoint       | Description                        |
+|--------|----------------|------------------------------------|
+| POST   | /auth/register | Register a new user                |
+| POST   | /auth/login    | Login user & return JWT token      |
+| GET    | /tasks         | Fetch all tasks (Auth required)    |
+| POST   | /tasks         | Create a new task (Auth required)  |
+| PUT    | /tasks/:id     | Update task (Auth required)        |
+| DELETE | /tasks/:id     | Delete task (Auth required)        |
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
+Authorization: Bearer Token (JWT) required for all /tasks endpoints.
 
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+🧪 Testing
+1️⃣ API Testing (Postman)
+- Open Postman
+- Set Base URL: http://localhost:5050/api/
+- Register a user via POST /auth/register
+- Login to get a JWT token (POST /auth/login)
+- Use the JWT as a Bearer token for /tasks API requests.
 
----
+2️⃣ Frontend Testing
+- Run `npm run dev` in /client
+- Register & Login
+- Perform Task CRUD operations
+- Ensure tasks update correctly in UI
 
-## Evaluation Criteria
+💰 Salary Expectations
+💵 Expected Monthly Salary: $2,300 - $2,600 USD (Open to negotiation)
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
-
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
-
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
-
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
-
-Good luck, and we look forward to your submission!
+Thank you and looking forward to working with you.

@@ -1,0 +1,28 @@
+# BE
+server/node_modules/
+server/dist/
+server/npm-debug.log
+server/yarn-debug.log
+server/yarn-error.log
+server/.env
+server/logs/
+server/*.log
+server/*.log.*
+
+# FE
+client/node_modules/
+client/.vercel/
+client/build/
+client/yarn-error.log
+client/.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# TypeScript
+*.tsbuildinfo
