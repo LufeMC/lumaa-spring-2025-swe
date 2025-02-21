@@ -87,7 +87,7 @@ CREATE TABLE tasks (
    ```bash
    npm install
    ```
-3. Create a `.env` file in the `backend` directory with the following content:
+3. Create a `.env` file in the root directory with the following content:
    ```env
    DB_USER=YOUR_USER
    DB_PASSWORD=YOUR_PASSWORD
