@@ -81,7 +81,7 @@ This challenge is intended to be completed within ~3 hours, so keep solutions mi
 ## Deliverables
 
 1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
+2. **Implement Your Solution** in the forked repository. Make sure your README file has:
    - Steps to set up the database (migrations, environment variables).
    - How to run the backend.
    - How to run the frontend.
