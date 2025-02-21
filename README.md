@@ -3,11 +3,7 @@
 This is a **full-stack** Task Management application built using **React + TypeScript (frontend)**, **Node.js (backend)**, and **PostgreSQL (database)**.
 
 ## Demo
-<video width="100%" controls>
-  <source src="https://jmp.sh/srDVKCK7" type="video/mp4">
-  Your browser does not support the video tag.  
-  [Click here to watch](https://jmp.sh/srDVKCK7)
-</video>
+[Click here to watch video demo](https://jmp.sh/srDVKCK7)
 
 ## Features
 ✔️ User Authentication (Register, Login)  
