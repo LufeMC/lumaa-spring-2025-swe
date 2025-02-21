@@ -147,3 +147,9 @@ npm run dev
 cd frontend
 npm start
 ```
+
+### Notes on testing
+Ensure PostgreSQL is running before starting the backend.
+The frontend will automatically connect to the backend at http://localhost:8000.
+
+## Salary Expectation per month: $2240 - $2400
