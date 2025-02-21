@@ -1,119 +1,254 @@
 # Full-Stack Coding Challenge
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+
+## App features
+- Nest JS 
+- Protected routes
+- CORS
+- Error handling
+- Password hashing
+- JWT token auth
+
+## Backend Setup (NestJS)
+
+1. **Installing PostgreSQL (Mac)**:
+   ```bash
+   brew install postgresql
+   ```
+
+2. **Starting PostgreSQL (Mac)**:
+   ```bash
+   brew services start postgresql
+   ```
+
+3. **Creating the Database**:
+   ```sql
+   CREATE DATABASE task_manager;
+   ```
+
+4. **Set Your Environment Variables**:
+   Create a `.env` file in the root of the backend folder with the following variables:
+   ```
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_db_password
+   DB_DATABASE=task_management
+   JWT_SECRET=your_secret
+   ```
+
+5. **Starting the Nest Backend Server**:
+   ```bash
+   cd backend
+   npm install
+   nest start
+   ```
+
+   The API root route is available at:  
+   `http://localhost:3000/api/v1/`
 
 ---
 
-## Overview
+## API Documentation
 
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
+### Base URL
+All API endpoints are prefixed with the base URL:
+```
+http://localhost:3000/api/v1/tasks
+```
 
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
-
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
-
----
-
-## Requirements
-
-### 1. Authentication
-
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
-
-### 2. Backend (Node.js or Nest.js)
-
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
-
-### 3. Frontend (React + TypeScript)
-
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+Authentication is required for all endpoints. Include the JWT token in the `Authorization` header:
+```
+Authorization: Bearer <your_jwt_token>
+```
 
 ---
 
-## Deliverables
+### 1. Get All Tasks
+Retrieves a list of all tasks for the authenticated user.
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
-
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+- **Endpoint**: `GET /tasks`
+- **Authentication**: Required (JWT)
+- **Response**:
+  - **Status Code**: `200 OK`
+  - **Body**:
+    ```json
+    [
+      {
+        "id": 1,
+        "title": "Task Title",
+        "description": "Task Description",
+        "isComplete": false
+      },
+      {
+        "id": 2,
+        "title": "Another Task",
+        "description": "Another Description",
+        "isComplete": true
+      }
+    ]
+    ```
 
 ---
 
-## Evaluation Criteria
+### 2. Create a New Task
+Creates a new task for the authenticated user.
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
+- **Endpoint**: `POST /tasks`
+- **Authentication**: Required (JWT)
+- **Request Body**:
+  ```json
+  {
+    "title": "New Task Title",
+    "description": "New Task Description"
+  }
+  ```
+- **Response**:
+  - **Status Code**: `201 Created`
+  - **Body**:
+    ```json
+    {
+      "id": 3,
+      "title": "New Task Title",
+      "description": "New Task Description",
+      "isComplete": false
+    }
+    ```
 
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
+---
 
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
+### 3. Update an Existing Task
+Updates an existing task by its ID.
 
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
+- **Endpoint**: `PUT /tasks/:id`
+- **Authentication**: Required (JWT)
+- **Path Parameter**:
+  - `id`: The ID of the task to update.
+- **Request Body**:
+  ```json
+  {
+    "title": "Updated Task Title",
+    "description": "Updated Task Description",
+    "isComplete": true
+  }
+  ```
+- **Response**:
+  - **Status Code**: `200 OK`
+  - **Body**:
+    ```json
+    {
+      "id": 1,
+      "title": "Updated Task Title",
+      "description": "Updated Task Description",
+      "isComplete": true
+    }
+    ```
 
-Good luck, and we look forward to your submission!
+---
+
+### 4. Delete a Task
+Deletes a task by its ID.
+
+- **Endpoint**: `DELETE /tasks/:id`
+- **Authentication**: Required (JWT)
+- **Path Parameter**:
+  - `id`: The ID of the task to delete.
+- **Response**:
+  - **Status Code**: `200 OK`
+  - **Body**:
+    ```json
+    {
+      "message": "Task deleted successfully"
+    }
+    ```
+
+---
+
+### Error Responses
+For all endpoints, the following error responses may occur:
+
+#### Unauthorized Access
+- **Status Code**: `401 Unauthorized`
+- **Body**:
+  ```json
+  {
+    "message": "Unauthorized"
+  }
+  ```
+
+#### Task Not Found
+- **Status Code**: `404 Not Found`
+- **Body**:
+  ```json
+  {
+    "message": "Task not found"
+  }
+  ```
+
+#### Validation Errors
+If the request body does not meet validation requirements (e.g., missing required fields), the following response will be returned:
+- **Status Code**: `400 Bad Request`
+- **Body**:
+  ```json
+  {
+    "message": ["title should not be empty", "description must be a string"]
+  }
+  ```
+
+---
+
+### Example Usage with `curl`
+
+#### Get All Tasks
+```bash
+curl -X GET http://localhost:3000/api/v1/tasks \
+-H "Authorization: Bearer <your_jwt_token>"
+```
+
+#### Create a New Task
+```bash
+curl -X POST http://localhost:3000/api/v1/tasks \
+-H "Authorization: Bearer <your_jwt_token>" \
+-H "Content-Type: application/json" \
+-d '{"title": "New Task", "description": "This is a new task"}'
+```
+
+#### Update a Task
+```bash
+curl -X PUT http://localhost:3000/api/v1/tasks/1 \
+-H "Authorization: Bearer <your_jwt_token>" \
+-H "Content-Type: application/json" \
+-d '{"title": "Updated Task", "description": "Updated description", "isComplete": true}'
+```
+
+#### Delete a Task
+```bash
+curl -X DELETE http://localhost:3000/api/v1/tasks/1 \
+-H "Authorization: Bearer <your_jwt_token>"
+```
+
+---
+
+## Frontend (Vite, TypeScript)
+
+1. **Starting the App**:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+## Expectations
+> at least $2500 / month
+
+
+## Video Demo
+
+A brief screen recording of the Task Management application is available below. The video demonstrates the following features:
+
+- User registration and login.
+- Creating, updating, and deleting tasks.
+
+You can view the video demo by clicking the link below:
+
+[Watch Video Demo](https://drive.google.com/file/d/19Q5bdkoDiIzprWUJleogNgY09ObqvT28/view?usp=sharing)
