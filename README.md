@@ -1,119 +1,160 @@
-# Full-Stack Coding Challenge
+# Task Management App
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
-
----
-
-## Overview
-
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
-
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
-
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
+A full-stack task management application built with a React/Typescript frontend, Node.js/Express backend, and PostgreSQL database.
 
 ---
 
-## Requirements
+## Features
+- User authentication with JWT
+- Add, update, delete, and mark tasks as complete
+- Responsive UI for managing tasks
+- Backend API with secure routes
+- PostgreSQL database integration
 
-### 1. Authentication
+---
 
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
-
-### 2. Backend (Node.js or Nest.js)
-
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
+## Technologies Used
+- **Frontend**: React, TypeScript
+- **Backend**: Node.js, Express.js
 - **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
+- **Authentication**: JSON Web Tokens (JWT)
 
-### 3. Frontend (React + TypeScript)
+---
+## Testing Video 
+https://drive.google.com/file/d/1nIlkP2i5a9aM9-I5q_2MHGAkReHLFeLk/view?usp=sharing
 
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+## Setup Instructions
+
+### **1. Install PostgreSQL and pgAdmin**
+1. Download and install PostgreSQL from the [official website](https://www.postgresql.org/download/).
+   - During installation, set a password for the default `postgres` user.
+2. Install **pgAdmin** (a graphical interface for managing PostgreSQL databases) as part of the PostgreSQL installation or separately from [pgAdmin's website](https://www.pgadmin.org/download/).
+3. Launch pgAdmin and log in with your PostgreSQL credentials.
 
 ---
 
-## Deliverables
-
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
-
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+### **2. Create the Database**
+1. Open pgAdmin and connect to your PostgreSQL server.
+2. Right-click on "Databases" in the left-hand menu and select **Create > Database**.
+3. Enter a name for your database (e.g., `task_manager`) and click **Save**.
 
 ---
 
-## Evaluation Criteria
+### **3. Set Up Tables**
+Use the following SQL queries to create the necessary tables in your database:
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
+#### Users Table:
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
+#### Tasks Table:
+```sql
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  is_complete BOOLEAN DEFAULT FALSE,
+  user_id INT REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
+---
 
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
+### **4. Clone the Repository**
+1. Open a terminal on your local machine.
+2. Clone this repository:
+   ```bash
+   git clone https://github.com/v2ganesan/lumaa-spring-2025-swe.git
+   ```
+3. Navigate into the project directory:
+   ```bash
+   cd 
+   ```
 
-Good luck, and we look forward to your submission!
+---
+
+### **5. Set Up the Backend**
+1. Navigate to the `backend` directory:
+   ```bash
+   cd backend
+   ```
+2. Install all necessary packages:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the root directory with the following content:
+   ```env
+   DB_USER=YOUR_USER
+   DB_PASSWORD=YOUR_PASSWORD
+   DB_NAME=YOUR_DB_NAME
+   DATABASE_URL=YOUR_DB_URL
+   JWT_SECRET=YOUR_JWT_SECRET
+   PORT=YOUR_PORT
+   
+   ```
+   - Replace DB env variables with your PostgreSQL information. 
+   - Replace `your_jwt_secret_key` with a secure secret key for JWT authentication.
+
+4. Start the backend server:
+   ```bash
+   npm run server
+   ```
+5. The backend will now run on `http://localhost:PORT`. If you decided not to specify a port in your .env file, it will run on `http://localhost:3001`.
+
+---
+
+### **6. Set Up the Frontend**
+1. Open a new terminal window (keep the backend running in another terminal).
+2. Navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   ```
+3. Install all necessary packages:
+   ```bash
+   npm install
+   ```
+4. Start the frontend development server:
+   ```bash
+   npm start
+   ```
+5. The frontend will now run on `http://localhost:3000`.
+
+---
+
+### **7. Run the Application**
+1. Open your browser and navigate to `http://localhost:3000`.
+2. Register a new user or log in with an existing account.
+3. Add, update, delete, and mark tasks as complete to test full functionality.
+
+---
+
+## Troubleshooting
+
+### Common Issues:
+1. **PostgreSQL Connection Errors**:
+    - Ensure PostgreSQL is running (`pg_ctl status` or check services).
+    - Verify that your `DATABASE_URL` in `.env` matches your database credentials.
+
+2. **Port Already in Use**:
+    - Change ports in `package.json`.
+
+3. **Missing Dependencies**:
+    - Run `npm install` in both `backend` and `frontend` directories.
+
+4. **Token Expiration Issues**:
+    - Ensure you are logged in with a valid token.
+    - If expired, log out and log back in.
+
+5. **React Build Issues**:
+    - If you encounter issues while running React, try clearing the cache:
+      ```bash
+      npm cache clean --force && npm start
+      ```
+Salary Expectations - $25-30/hr / $2250 - $2700 per Month
