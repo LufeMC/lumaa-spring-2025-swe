@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { createUser, findUserByUsername } from "../services/user.service";
+import { createUser, findUserById, findUserByUsername } from "../services/user.service";
 import bcrypt from "bcrypt";
 import { auth } from "../middleware/auth.middleware";
 
@@ -31,21 +31,21 @@ router.post("/login", async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: "1h" });
-    res.json({ token, id: user.id, username: user.username });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, { expiresIn: "7d" });
+    res.json({ token, user: { id: user.id, username: user.username } });
   } catch (error) {
     console.error("Login Error:", error);
     res.status(500).json({ error: "Error logging in" });
   }
 });
-
 router.get("/me", auth, async (req: Request, res: Response): Promise<any> => {
   try {
-    const user = await findUserByUsername((req as any).user?.userId);
+    const user = await findUserById((req as any).user?.userId);
     if (!user) return res.status(404).json({ error: "User not found" });
 
     res.json({ id: user.id, username: user.username });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Error retrieving user" });
   }
 });
